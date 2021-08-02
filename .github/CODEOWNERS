@@ -1,0 +1,13 @@
+# Girişler için geçerli sözdizimi için https://help.github.com/articles/about-codeowners/ adresine bakın
+#Daha sonraki bir eşleşme öncelikli değilse, depodaki her şey için varsayılan sahipler
+
+
+# Testing edit 
+* @Drmehmetaktass 
+# Owner
+* Drmehmetaktasss
+
+# Phoenix owns the files under blacklist thingies 
+/tg_bot/modules/blacklistusers.py @rsktg
+/tg_bot/modules/sql/blacklistusers_sql.py @rsktg
+

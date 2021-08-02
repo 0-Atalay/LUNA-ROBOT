@@ -1,0 +1,53 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  review-app-test:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Run review-app test
+      id: review_app_test  #"id" değeri, ilgili eylemin çıktılarını belirtmek için kullanılır
+      uses: niteoweb/reviewapps-deploy-status@v1.3.0
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        #Yapılacak kontroller, varsayılan tüm kontroller
+        checks: build, response
+
+        # Heroku'da oluşturulacak uygulama için gecikme, varsayılan 5 saniyedir
+        build_time_delay: 5
+
+        #Uygulamanın yüklenmesi ve hizmete başlaması için gecikme, varsayılan 5 saniyedir
+        load_time_delay: 5
+
+        #Tekrarlanan kontroller için aralık, varsayılan 10 saniyedir
+        interval: 10
+
+        #
+Yanıt kontrolü için kabul edilebilir yanıtlar, varsayılan değer 200
+        accepted_responses: 200
+
+        #
+Yapı denetimi için yeniden denenmek için harcanacak maksimum süre, varsayılan değer 120'dir
+        deployments_timeout: 120
+
+        #Yanıt kontrolü için yeniden denenmek için harcanacak maksimum süre, varsayılan 120'dir
+        publish_timeout: 120
+
+    # `steps.review_app_test.outputs.review_app_url`  
+Uygulama İnceleme URL'sini almak için iş akışında kullanılmalıdır
+    - name: Check review_app_url
+      run: |
+        echo "Outputs - ${{ steps.review_app_test.outputs.review_app_url }}":
+     
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/first-interaction@v1
+      wit
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: 'Merhaba, phantomRobot'a ve deposuna hoş geldiniz, buradaki ilk sorununuz olduğundan, daha hızlı çözümler ve acil raporlar için bizi @Drmehmetaktass telegram'da ziyaret etmenizi öneririz'
+        pr-message: 'Merhaba, buradaki ilk PR'nize hoş geldiniz, kısa süre içinde sizinle görüşeceğiz.'
