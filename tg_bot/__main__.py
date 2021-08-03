@@ -70,7 +70,7 @@ for module_name in ALL_MODULES:
     if not imported_module.__mod_name__.lower() in IMPORTED:
         IMPORTED[imported_module.__mod_name__.lower()] = imported_module
     else:
-        raise Exception("Can't have two modules with the same name! Please change one")
+        raise Exception("Aynı ada sahip iki modül olamaz! lütfen birini değiştir")
 
     if hasattr(imported_module, "__help__") and imported_module.__help__:
         HELPABLE[imported_module.__mod_name__.lower()] = imported_module
@@ -112,17 +112,17 @@ def send_help(chat_id, text, keyboard=None):
 def test(bot: Bot, update: Update):
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    update.effective_message.reply_text("This person edited a message")
+    update.effective_message.reply_text("Bu kişi bir mesajı düzenledi")
     print(update.effective_message)
 
 @run_async
 def start(bot: Bot, update: Update, args: List[str]):
-    if update.effective_chat.type == "private":
+    if update.effective_chat.type == "özel":
         if len(args) >= 1:
-            if args[0].lower() == "help":
+            if args[0].lower() == "yardım":
                 send_help(update.effective_chat.id, HELP_STRINGS)
-            elif args[0].lower() == "disasters":
-                IMPORTED["disasters"].send_disasters(update)
+            elif args[0].lower() == "afetler":
+                IMPORTED["afetler"].send_disasters(update)
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
