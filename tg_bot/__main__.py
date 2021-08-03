@@ -151,7 +151,7 @@ def start(bot: Bot, update: Update, args: List[str]):
                                                                                  ]]))
 
     else:
-        update.effective_message.reply_text("Yuss, BEN ZATEN ÇEVRİM İÇİYİM 🤡")
+        update.effective_message.reply_text("Hey, BEN ZATEN ÇEVRİM İÇİYİM 🤡")
 
 
 def send_start(bot, update):
