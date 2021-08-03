@@ -594,10 +594,10 @@ def user_button(bot: Bot, update: Update):
         query.answer(text="Bunu yapmana izin verilmiyor!")
 
 
-WELC_HELP_TXT =  " Grubunuzun karşılama/goodbye mesajları birçok şekilde kişiselleştirilebilir. mesajları istersen"
-                 " this represents the user's *first* name\n"
+WELC_HELP_TXT = ("Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages"
+                 " to be individually generated, like the default welcome message is, you can use *these* variables:\n"
                  " - `{{first}}`: this represents the user's *first* name\n"
-                 " - `{{last}}`: bu, kullanıcının *username* adını temsil eder. Kullanıcının adı yoksa varsayılan olarak *name* "
+                 " - `{{last}}`: this represents the user's *last* name. Defaults to *first name* if user has no "
                  "last name.\n"
                  " - `{{fullname}}`: this represents the user's *full* name. Defaults to *first name* if user has no "
                  "last name.\n"
@@ -617,6 +617,7 @@ WELC_HELP_TXT =  " Grubunuzun karşılama/goodbye mesajları birçok şekilde ki
                  "remove it.\n"
                  "If you're feeling fun, you can even set images/gifs/videos/voice messages as the welcome message by "
                  "replying to the desired media, and calling /setwelcome.")
+
 
 WELC_MUTE_HELP_TXT = (
     "You can get the bot to mute new people who join your group and hence prevent spambots from flooding your group. "
