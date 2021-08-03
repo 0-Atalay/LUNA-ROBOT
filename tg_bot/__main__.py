@@ -147,7 +147,7 @@ def start(bot: Bot, update: Update, args: List[str]):
                                                                                    [InlineKeyboardButton(text="BENİ GRUBA EKLE ",
                                                                        url="t.me/{}?startgroup=true".format(bot.username)),
                                                                                    InlineKeyboardButton(text="Source Code",
-                                                                       url="https://github.com/Drmehmetaktass/LUNA-ROBOT")
+                                                                       url="https://github.com/Drmehmetaktass/GRANDROBOT")
                                                                                  ]]))
 
     else:
