@@ -112,7 +112,7 @@ def send_help(chat_id, text, keyboard=None):
 def test(bot: Bot, update: Update):
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    update.effective_message.reply_text("This person edited a message")
+    update.effective_message.reply_text("Bu kişi bir mesajı düzenledi")
     print(update.effective_message)
 
 @run_async
@@ -144,14 +144,14 @@ def start(bot: Bot, update: Update, args: List[str]):
                                                                        callback_data="help_back".format(bot.username)),
                                                                                    InlineKeyboardButton(text="🧑‍💻YARATICIM🧑‍💻",
                                                                        url="t.me/Drmehmetaktass")],
-                                                                                   [InlineKeyboardButton(text="ADD GRAND OFFICIAL TO YOUR GROUP",
+                                                                                   [InlineKeyboardButton(text="BENİ GRUBA EKLE",
                                                                        url="t.me/{}?startgroup=true".format(bot.username)),
-                                                                                   InlineKeyboardButton(text="Source Code",
-                                                                       url="https://github.com/Drmehmetaktass/GRANDROBOT")
+                                                                                   InlineKeyboardButton(text="TÜRK-C",
+                                                                       url="https://t.me/turkcbot")
                                                                                  ]]))
 
     else:
-        update.effective_message.reply_text("Yuss, BEN ZATEN ÇEVRİM İÇİYİM 🤡")
+        update.effective_message.reply_text("HEY, BEN ZATEN ÇEVRİM İÇİYİM 🤡")
 
 
 def send_start(bot, update):
