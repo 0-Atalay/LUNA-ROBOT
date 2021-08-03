@@ -1,5 +1,7 @@
+
+
 # GRAND OFFICIAL
-![Rose Profile](https://telegra.ph/file/718d48493d1fb11197d8b.jpg
+![Rose Profile](https://telegra.ph/file/96c6f0def6ab4846424a1.jpg)
 DEPLOY HERE - [GRAND OFFICIAL] (https://heroku.com/deploy?template=https://github.com/Drmehmetaktass/GRANDROBOT)
 [.](https://heroku.com/deploy)
 Credits - [LEGEND X](https://t.me/Drmehmetaktass)
