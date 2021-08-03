@@ -20,7 +20,7 @@ LOGGER = logging.getLogger(__name__)
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
-    LOGGER.error("You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting.")
+    LOGGER.error("En az 3.6'lık bir python sürümüne sahip olmalısınız! Birçok özellik buna bağlıdır. Bot bırakma.")
     quit(1)
 
 ENV = bool(os.environ.get('ENV', False))
@@ -31,7 +31,7 @@ if ENV:
     try:
         OWNER_ID = int(os.environ.get('OWNER_ID', None))
     except ValueError:
-        raise Exception("Your OWNER_ID env variable is not a valid integer.")
+        raise Exception("OWNER_ID env değişkeniniz geçerli bir tam sayı değil.")
 
     MESSAGE_DUMP = os.environ.get('MESSAGE_DUMP', None)
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
@@ -40,27 +40,27 @@ if ENV:
         SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
         DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
     except ValueError:
-        raise Exception("Your sudo or dev users list does not contain valid integers.")
+        raise Exception("Sudo veya dev kullanıcı listeniz geçerli tamsayılar içermiyor.")
 
     try:
         SUPPORT_USERS = set(int(x) for x in os.environ.get("SUPPORT_USERS", "").split())
     except ValueError:
-        raise Exception("Your support users list does not contain valid integers.")
+        raise Exception("Destek kullanıcıları listeniz geçerli tamsayılar içermiyor.")
 
     try:
         SPAMMERS = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
     except ValueError:
-        raise Exception("Your spammers users list does not contain valid integers.")
+        raise Exception("Spam gönderenler kullanıcı listeniz geçerli tamsayılar içermiyor.")
 
     try:
         WHITELIST_USERS = set(int(x) for x in os.environ.get("WHITELIST_USERS", "").split())
     except ValueError:
-        raise Exception("Your whitelisted users list does not contain valid integers.")
+        raise Exception("Beyaz listedeki kullanıcılar listeniz geçerli tamsayılar içermiyor..")
 
     try:
         TIGER_USERS = set(int(x) for x in os.environ.get("TIGER_USERS", "").split())
     except ValueError:
-        raise Exception("Your tiger users list does not contain valid integers.")
+        raise Exception("Tiger kullanıcıları listeniz geçerli tamsayılar içermiyor.")
 
     GBAN_LOGS = os.environ.get('GBAN_LOGS', None)
     WEBHOOK = bool(os.environ.get('WEBHOOK', False))
@@ -92,7 +92,7 @@ else:
     try:
         OWNER_ID = int(Config.OWNER_ID)
     except ValueError:
-        raise Exception("Your OWNER_ID variable is not a valid integer.")
+        raise Exception("OWNER_ID değişkeniniz geçerli bir tam sayı değil..")
 
     MESSAGE_DUMP = Config.MESSAGE_DUMP
     OWNER_USERNAME = Config.OWNER_USERNAME
@@ -101,27 +101,27 @@ else:
         SUDO_USERS = set(int(x) for x in Config.SUDO_USERS or [])
         DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
     except ValueError:
-        raise Exception("Your sudo or dev users list does not contain valid integers.")
+        raise Exception("Sudo veya dev kullanıcı listeniz geçerli tamsayılar içermiyor.")
 
     try:
         SUPPORT_USERS = set(int(x) for x in Config.SUPPORT_USERS or [])
     except ValueError:
-        raise Exception("Your support users list does not contain valid integers.")
+        raise Exception("Destek kullanıcıları listeniz geçerli tamsayılar içermiyor.")
 
     try:
         SPAMMERS = set(int(x) for x in Config.SPAMMERS or [])
     except ValueError:
-        raise Exception("Your spammers users list does not contain valid integers.")
+        raise Exception("Spam gönderenler kullanıcı listeniz geçerli tamsayılar içermiyor.")
 
     try:
         WHITELIST_USERS = set(int(x) for x in Config.WHITELIST_USERS or [])
     except ValueError:
-        raise Exception("Your whitelisted users list does not contain valid integers.")
+        raise Exception("Beyaz listedeki kullanıcılar listeniz geçerli tamsayılar içermiyor.")
 
     try:
         TIGER_USERS = set(int(x) for x in Config.TIGER_USERS or [])
     except ValueError:
-        raise Exception("Your tiger users list does not contain valid integers.")
+        raise Exception("Tiger kullanıcıları listeniz geçerli tamsayılar içermiyor.")
 
     GBAN_LOGS = Config.GBAN_LOGS
     WEBHOOK = Config.WEBHOOK
