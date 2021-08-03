@@ -35,10 +35,10 @@ Kullanılabilir komutların listesini /help ile bulabilirsiniz🤡.
 
 HELP_STRINGS = """
 
-Merhaba! benim adım *{}*.
+Hello! my name *{}*.
 
-*Main* komutlar mevcuttur:
- - /start: botu başlatır
+*Main* commands available:
+ - /start: start the bot
  - /help: yardım almak için bir modül seçin🤡 .
  - /help <modül ismj>: bu modül hakında bilgi verir🤡.
  - /settings:
@@ -50,7 +50,7 @@ Merhaba! benim adım *{}*.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-TECHNO_IMG = "https://telegra.ph/file/5ad0fc3700d42ef869449.jpg"
+TECHNO_IMG = "https://telegra.ph/file/84b2017bc2f3c90f2e61c.jpg"
 IMPORTED = {}
 MIGRATEABLE = []
 HELPABLE = {}
@@ -70,7 +70,7 @@ for module_name in ALL_MODULES:
     if not imported_module.__mod_name__.lower() in IMPORTED:
         IMPORTED[imported_module.__mod_name__.lower()] = imported_module
     else:
-        raise Exception("Aynı ada sahip iki modül olamaz! lütfen birini değiştir")
+        raise Exception("Can't have two modules with the same name! Please change one")
 
     if hasattr(imported_module, "__help__") and imported_module.__help__:
         HELPABLE[imported_module.__mod_name__.lower()] = imported_module
@@ -101,7 +101,7 @@ for module_name in ALL_MODULES:
 # do not async
 def send_help(chat_id, text, keyboard=None):
     if not keyboard:
-        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "yardım"))
+        keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     dispatcher.bot.send_message(chat_id=chat_id,
                                 text=text,
                                 parse_mode=ParseMode.MARKDOWN,
@@ -112,17 +112,17 @@ def send_help(chat_id, text, keyboard=None):
 def test(bot: Bot, update: Update):
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
-    update.effective_message.reply_text("Bu kişi bir mesajı düzenledi")
+    update.effective_message.reply_text("This person edited a message")
     print(update.effective_message)
 
 @run_async
 def start(bot: Bot, update: Update, args: List[str]):
-    if update.effective_chat.type == "özel":
+    if update.effective_chat.type == "private":
         if len(args) >= 1:
-            if args[0].lower() == "yardım":
+            if args[0].lower() == "help":
                 send_help(update.effective_chat.id, HELP_STRINGS)
-            elif args[0].lower() == "afetler":
-                IMPORTED["afetler"].send_disasters(update)
+            elif args[0].lower() == "disasters":
+                IMPORTED["disasters"].send_disasters(update)
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
@@ -144,17 +144,14 @@ def start(bot: Bot, update: Update, args: List[str]):
                                                                        callback_data="help_back".format(bot.username)),
                                                                                    InlineKeyboardButton(text="🧑‍💻YARATICIM🧑‍💻",
                                                                        url="t.me/Drmehmetaktass")],
-                                                                                   [InlineKeyboardButton(text="BENİ GRUBA EKLE ",
+                                                                                   [InlineKeyboardButton(text="ADD GRAND OFFICIAL TO YOUR GROUP",
                                                                        url="t.me/{}?startgroup=true".format(bot.username)),
                                                                                    InlineKeyboardButton(text="Source Code",
                                                                        url="https://github.com/Drmehmetaktass/GRANDROBOT")
                                                                                  ]]))
 
-else:
-     update.effective_message.reply_text("Hey, BEN ZATEN ÇEVRİM İÇİYİM 🤡")
-
-
-
+    else:
+        update.effective_message.reply_text("Yuss, BEN ZATEN ÇEVRİM İÇİYİM 🤡")
 
 
 def send_start(bot, update):
