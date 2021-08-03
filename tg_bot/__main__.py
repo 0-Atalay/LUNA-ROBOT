@@ -35,10 +35,10 @@ Kullanılabilir komutların listesini /help ile bulabilirsiniz🤡.
 
 HELP_STRINGS = """
 
-Hello! my name *{}*.
+Merhaba! benim adım *{}*.
 
-*Main* commands available:
- - /start: start the bot
+*Main* komutlar mevcuttur:
+ - /start: botu başlatır
  - /help: yardım almak için bir modül seçin🤡 .
  - /help <modül ismj>: bu modül hakında bilgi verir🤡.
  - /settings:
@@ -50,7 +50,7 @@ Hello! my name *{}*.
 And the following:
 """.format(dispatcher.bot.first_name, "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-TECHNO_IMG = "https://telegra.ph/file/84b2017bc2f3c90f2e61c.jpg"
+TECHNO_IMG = "https://telegra.ph/file/5ad0fc3700d42ef869449.jpg"
 IMPORTED = {}
 MIGRATEABLE = []
 HELPABLE = {}
