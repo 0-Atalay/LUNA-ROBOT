@@ -144,7 +144,7 @@ def start(bot: Bot, update: Update, args: List[str]):
                                                                        callback_data="help_back".format(bot.username)),
                                                                                    InlineKeyboardButton(text="🧑‍💻YARATICIM🧑‍💻",
                                                                        url="t.me/Drmehmetaktass")],
-                                                                                   [InlineKeyboardButton(text="ADD GRAND OFFICIAL TO YOUR GROUP",
+                                                                                   [InlineKeyboardButton(text="BENİ GRUBA EKLE ",
                                                                        url="t.me/{}?startgroup=true".format(bot.username)),
                                                                                    InlineKeyboardButton(text="Source Code",
                                                                        url="https://github.com/Drmehmetaktass/GRANDROBOT")
