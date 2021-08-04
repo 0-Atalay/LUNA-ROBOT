@@ -363,12 +363,12 @@ __help__ = """
  - /pin: yanıtlanan mesajı sessizce sabitler - kullanıcılara bildirim vermek için 'yüksek sesle' veya 'bildir' ekleyin.
  - /unpin: şu anda sabitlenmiş mesajın sabitlemesini kaldırır
  - /invitelink: davet bağlantısı alır
- - /promote: promotes the user replied to
- - /demote: demotes the user replied to
- - /settitle: sets a custom title for an admin that the bot promoted.
- - /settitle: Sets a custom title for an admin which is promoted by bot.
- - /setgpic: As a reply to file or photo to set group profile pic!
- - /delgpic: Same as above but to remove group profile pic.
+ - /promote: yanıtladığı kullanıcıyı tanıtır
+ - /demote: yanıtladığı kullanıcının değerini düşürür
+ - /settitle: botun terfi ettirdiği bir yönetici için özel bir başlık ayarlar.
+ - /settitle: Bot tarafından terfi ettirilen bir yönetici için özel bir
+ - /setgpic: Grup profili resmini ayarlamak için dosyaya veya fotoğrafa yanıt olarak!
+ - /delgpic: Yukarıdakiyle aynı, ancak grup profil resmini kaldırmak için!
 
 """
 
