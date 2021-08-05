@@ -85,7 +85,7 @@ kill_you = [
             "------------------>",    
             "------>;(^。^)ノ",
             "(￣ー￣) DED",
-            "**Target killed successfully"
+            "**Hedef başarıyla öldürüldü😑"
 ]
 
 
@@ -126,7 +126,7 @@ love_siren = [
 
 
 hack_you = [
-            "Looking for WhatsApp databases in targeted person...",
+            "Hedeflenen kişide WhatsApp veritabanları aranıyor...",
             " User online: True\nTelegram access: True\nRead Storage: True ",
             "Hacking... 20.63%\n[███░░░░░░░░░░░░░░░░░]",    
             "Hacking... 86.21%\n[███████████████░░░░░]",
@@ -312,7 +312,7 @@ def hack(bot: Bot, update: Update):
     for x in range(EDIT_TIMES):
         msg.edit_text(hack_you[x%5])
         time.sleep(EDIT_SLEEP)
-    msg.edit_text('successful hacked all data send on @LEGENDX22 Database')
+    msg.edit_text('@turkcbot Veritabanına gönderilen tüm veriler başarılı bir şekilde hacklendi')
 
 
 
@@ -328,7 +328,7 @@ def love(bot: Bot, update: Update):
     for x in range(EDIT_TIMES):
         msg.edit_text(love_siren[x%5])
         time.sleep(EDIT_SLEEP)
-    msg.edit_text('True Love💞')
+    msg.edit_text('Gercek aşk💞')
 
 
 
