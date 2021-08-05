@@ -321,37 +321,58 @@ def rmchatpic(bot: Bot, update: Update):
 
 
 @run_async
+
 def adminlist(bot: Bot, update: Update):
+
     administrators = update.effective_chat.get_administrators()
+
     msg = update.effective_message
-    text = "yöneticiler *{}*:".format(update.effective_chat.title or "bu sohbet")
+
+    text = "Admins in *{}*:".format(update.effective_chat.title or "this chat")
+
     for admin in administrators:
+
         user = admin.user
+
         status = admin.status
+
         name = "[{}](tg://user?id={})".format(user.first_name + " " + (user.last_name or ""), user.id)
+
         if user.username:
+
             name = name = escape_markdown("@" + user.username)
-        if status == "sahibi ":
-            text += "\n 🔱 sahibi:"
+
+        if status == "creator":
+
+            text += "\n 🔱 Creator:"
+
             text += "\n` • `{} \n\n • *Administrators*:".format(name)
 
-
-
-
     for admin in administrators:
+
         user = admin.user
+
         status = admin.status
+
         chat = update.effective_chat
+
         count = chat.get_members_count()
+
         name = "[{}](tg://user?id={})".format(user.first_name + " " + (user.last_name or ""), user.id)
+
         if user.username:
+
             name = escape_markdown("@" + user.username)
+
             
-        if status == "yöneticiler":
+
+        if status == "administrator":
+
             text += "\n`👮🏻 `{}".format(name)
-            members = "\n\n*members:*\n`🙍‍♂️ ` {} users".format(count)
-            
-    msg.reply_text(text + members, parse_mode=ParseMode.MARKDOWN)
+
+            members = "\n\n*Members:*\n`🙍‍♂️ ` {} users".format(count)
+
+            )
 
 
 
