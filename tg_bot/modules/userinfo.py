@@ -77,8 +77,7 @@ def about_bio(bot: Bot, update: Update, args: List[str]):
         username = user.first_name
         update.effective_message.reply_text(f"{username} henüz kendileri hakkında bir mesaj oluşturmadı!")
     else:
-        update.effective_message.reply_text("
-Henüz kendin hakkında bir biyografi setin yok!")
+        update.effective_message.reply_text("Henüz kendin hakkında bir biyografi setin yok!")
 
 
 @run_async
