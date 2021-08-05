@@ -71,9 +71,9 @@ def reply_afk(bot: Bot, update: Update):
                 valid, reason = sql.check_afk_status(user_id)
                 if valid:
                     if not reason:
-                        res = "{} is AFK!".format(fst_name)
+                        res = "{} şuan AFK!".format(fst_name)
                     else:
-                        res = "{} is AFK!\nReason:\n{}".format(fst_name, reason)
+                        res = "{} şuan AFK \nsebep:\n{}".format(fst_name, reason)
                     message.reply_text(res)
 
 
@@ -81,10 +81,17 @@ def __gdpr__(user_id):
     sql.rm_afk(user_id)
 
 
-__help__ = """
- - /afk <reason>: mark yourself as AFK(away from keyboard).
- - brb <reason>: same as the afk command - but not a command.
-When marked as AFK, any mentions will be replied to with a message to say you're not available!
+__help__ = """ama bir komut değil.
+
+AFK olarak işaretlendiğinde, herhangi bir söze, müsait olmadığınızı söyleyen bir mesajla cevap verilecektir
+
+
+ - /afk <neden>: kendinizi AFK (klavyeden uzakta) olarak işaretleyin.
+
+ - brb <sebep>: afk komutuyla aynı - ancak bir komut değil.
+
+AFK olarak işaretlendiğinde, herhangi bir söze, müsait olmadığınızı söyleyen bir mesajla cevap verilecekti
+
 """
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
