@@ -85,7 +85,7 @@ kill_you = [
             "------------------>",    
             "------>;(^。^)ノ",
             "(￣ー￣) DED",
-            "**Hedef başarıyla öldürüldü😑"
+            "**Hedef başarıyla öldürüldü😑**"
 ]
 
 
@@ -127,7 +127,7 @@ love_siren = [
 
 hack_you = [
             "Hedeflenen kişide WhatsApp veritabanları aranıyor...",
-            " User online: True\nTelegram access: True\nRead Storage: True ",
+            " Çevrimiçi kullanıcı: Doğru\nTelegram erişimi: Doğru\nOkuma Deposu: Doğru",
             "Hacking... 20.63%\n[███░░░░░░░░░░░░░░░░░]",    
             "Hacking... 86.21%\n[███████████████░░░░░]",
             "Hacking... 93.50%\n[█████████████████░░░]",
