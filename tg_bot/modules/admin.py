@@ -372,7 +372,7 @@ def adminlist(bot: Bot, update: Update):
 
             members = "\n\n*Members:*\n`🙍‍♂️ ` {} users".format(count)
 
-            )
+
 
 
 
