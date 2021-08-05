@@ -20,7 +20,7 @@ def afk(bot: Bot, update: Update):
         reason = args[1]
 
     sql.set_afk(update.effective_user.id, reason)
-    update.effective_message.reply_text("{} is now away!".format(update.effective_user.first_name))
+    update.effective_message.reply_text("{} şimdi uzakta!".format(update.effective_user.first_name))
 
 
 @run_async
@@ -33,15 +33,15 @@ def no_longer_afk(bot: Bot, update: Update):
     res = sql.rm_afk(user.id)
     if res:
         options = [
-            '{} is here!',
-            '{} is back!',
-            '{} is now in the chat!',
-            '{} is awake!',
-            '{} is back online!',
-            '{} is finally here!',
-            'Welcome back!, {}',
-            'Where is {}?\nIn the chat!'
-        ]
+            '{} burada!', '{} geri döndü!',
+            '{} artık sohbette!', 
+            '{} uyanık!', 
+            '{} tekrar çevrimiçi!', 
+            '{} sonunda burada!', 
+            'Tekrar hoşgeldiniz!, {}', 
+            '{} nerede?\nSohbette!',
+
+               ]
         chosen_option = random.choice(options)
         update.effective_message.reply_text(chosen_option.format(update.effective_user.first_name))
 
