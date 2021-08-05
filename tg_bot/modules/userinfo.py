@@ -106,10 +106,12 @@ def set_about_bio(bot: Bot, update: Update):
                 message.reply_text("{}'nin biyografisi güncellendi!".format(repl_message.from_user.first_name))
             else:
                 message.reply_text(
-                    "
-A bio needs to be under {} characters! You tried to set {}.
-Bir biyografinin {} karakterin altında olması gerekir! {} ayarlamayı denediniz.".format(
-                        MAX_MESSAGE_LENGTH // 4, len(bio[1])))
+                    "Bir biyografinin {} karakterin altında olması gerekir! {} ayarlamayı denediniz".format(
+                       MAX_MESSAGE_LENGTH // 4, len(bio[1])))
+
+
+
+
     else:
         message.reply_text("Biyografisini ayarlamak için birinin mesajına cevap verin!")
 
