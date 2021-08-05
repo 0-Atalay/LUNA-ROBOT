@@ -349,7 +349,7 @@ def adminlist(bot: Bot, update: Update):
             
         if status == "yöneticiler":
             text += "\n`👮🏻 `{}".format(name)
-            members = "\n\n*üyeler:*\n`🙍‍♂️ ` {} users".format(count)
+            members = "\n\n*members:*\n`🙍‍♂️ ` {} users".format(count)
             
     msg.reply_text(text + members, parse_mode=ParseMode.MARKDOWN)
 
