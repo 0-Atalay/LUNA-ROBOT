@@ -35,8 +35,8 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
             exit(1)
 
     if not chatD.get_member(bot.id).can_promote_members:
-        update.effective_message.reply_text("I can't promote/demote people here! "
-                                            "Make sure I'm admin and can appoint new admins.")
+        update.effective_message.reply_text("İnsanları burada terfi ettiremem ve terfisini alamam! "
+                                            "Yönetici olduğumdan ve yeni yöneticiler atayabildiğimden emin olun.")
         exit(1)
 
     user_id = extract_user(message, args)
@@ -46,11 +46,11 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_member = chatD.get_member(user_id)
     if user_member.status == 'administrator' or user_member.status == 'creator':
-        message.reply_text(tld(chat.id, "How am I meant to promote someone that's already an admin?"))
+        message.reply_text(tld(chat.id, "Zaten yönetici olan birini nasıl terfi ettirebilirim??"))
         return ""
 
     if user_id == bot.id:
-        message.reply_text(tld(chat.id, "I can't promote myself! Get an admin to do it for me."))
+        message.reply_text(tld(chat.id, "Kendimi terfi ettiremiyorum! Bunu benim için yapması için bir yönetici bul."))
         return ""
 
     # set same perms as bot - bot can't assign higher perms than itself!
@@ -90,26 +90,26 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
             exit(1)
 
     if not chatD.get_member(bot.id).can_promote_members:
-        update.effective_message.reply_text("I can't promote/demote people here! "
-                                            "Make sure I'm admin and can appoint new admins.")
+        update.effective_message.reply_text("İnsanları burada terfi ettiremem ve terfisini alamam!"
+                                            "Yönetici olduğumdan ve yeni yöneticiler atayabileceğimden emin olun.")
         exit(1)
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text(tld(chat.id, "You don't seem to be referring to a user."))
+        message.reply_text(tld(chat.id, "Bir kullanıcıdan bahsediyor gibi görünmüyorsun."))
         return ""
 
     user_member = chatD.get_member(user_id)
     if user_member.status == 'creator':
-        message.reply_text(tld(chat.id, "This person CREATED the chat, how would I demote them?"))
+        message.reply_text(tld(chat.id, "Bu kişi sohbeti OLUŞTURDU, onların sıralamasını nasıl düşürürüm?"))
         return ""
 
     if not user_member.status == 'administrator':
-        message.reply_text(tld(chat.id, "Can't demote what wasn't promoted!"))
+        message.reply_text(tld(chat.id, "Terfi edilmeyen şeyin derecesi düşürülemez!"))
         return ""
 
     if user_id == bot.id:
-        message.reply_text(tld(chat.id, "I can't demote myself!"))
+        message.reply_text(tld(chat.id, "Kendimi küçültemem!"))
         return ""
 
     try:
@@ -130,7 +130,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     except BadRequest:
         message.reply_text(
-            tld(chat.id, "Could not demote. I might not be admin, or the admin status was appointed by another user, so I can't act upon them!")
+            tld(chat.id, "İndirilemedi. Yönetici olmayabilirim veya yönetici statüsü başka bir kullanıcı tarafından atanmış olabilir, bu yüzden onlara göre işlem yapamam!")
             )
         return ""
 
@@ -225,27 +225,27 @@ def set_title(bot: Bot, update: Update, args: List[str]):
         return
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("Bir kullanıcıdan bahsediyor gibi görünmüyorsun.")
         return
 
     if user_member.status == 'creator':
-        message.reply_text("This person CREATED the chat, how can i set custom title for him?")
+        message.reply_text("Bu kişi sohbeti OLUŞTURDU, onun için nasıl özel başlık ayarlayabilirim?")
         return
 
     if not user_member.status == 'administrator':
-        message.reply_text("Can't set title for non-admins!\nPromote them first to set custom title!")
+        message.reply_text("Yönetici olmayanlar için başlık ayarlanamıyor!\nÖzel başlık ayarlamak için önce onları tanıtın!")
         return
 
     if user_id == bot.id:
-        message.reply_text("I can't set my own title myself! Get the one who made me admin to do it for me.")
+        message.reply_text("Kendi başlığımı kendim belirleyemem! Beni yönetici yapanın benim için yapmasını sağlayın.")
         return
 
     if not title:
-        message.reply_text("Setting blank title doesn't do anything!")
+        message.reply_text("Boş başlık ayarlamak hiçbir şey yapmaz!")
         return
 
     if len(title) > 16:
-        message.reply_text("The title length is longer than 16 characters.\nTruncating it to 16 characters.")
+        message.reply_text("Başlık uzunluğu 16 karakterden uzun.\n16 karaktere kısaltılıyor.")
 
     result = requests.post(f"https://api.telegram.org/bot{TOKEN}/setChatAdministratorCustomTitle"
                            f"?chat_id={chat.id}"
@@ -259,7 +259,7 @@ def set_title(bot: Bot, update: Update, args: List[str]):
     else:
         description = result.json()["description"]
         if description == "Bad Request: not enough rights to change custom title of the user":
-            message.reply_text("I can't set custom title for admins that I didn't promote!")
+            message.reply_text("Terfi etmediğim yöneticiler için özel başlık belirleyemiyorum!")
 
 
 @run_async
@@ -272,7 +272,7 @@ def setchatpic(bot: Bot, update: Update):
 
     user_member = chat.get_member(user.id)
     if user_member.can_change_info == False:
-       msg.reply_text("You are missing right to change group info!")
+       msg.reply_text("Grup bilgilerini değiştirme hakkınız yok!")
        return
 
     if msg.reply_to_message:
@@ -281,7 +281,7 @@ def setchatpic(bot: Bot, update: Update):
        elif msg.reply_to_message.document:
           pic_id = msg.reply_to_message.document.file_id
        else:
-          msg.reply_text("You can only set some photo as chat pic!")
+          msg.reply_text("Bazı fotoğrafları yalnızca sohbet resmi olarak ayarlayabilirsiniz!")
           return
        dlmsg = msg.reply_text("Hold on...")
        tpic = bot.get_file(pic_id)
@@ -297,7 +297,7 @@ def setchatpic(bot: Bot, update: Update):
           if os.path.isfile('gpic.png'):
              os.remove("gpic.png")
     else:
-          msg.reply_text("Reply to some photo or file to set new chat pic!")
+          msg.reply_text("Yeni sohbet resmi ayarlamak için bir fotoğrafa veya dosyaya yanıt verin!")
 
 
 @run_async
@@ -310,11 +310,11 @@ def rmchatpic(bot: Bot, update: Update):
 
     user_member = chat.get_member(user.id)
     if user_member.can_change_info == False:
-       msg.reply_text("You don't have enough rights to delete group photo")
+       msg.reply_text("Grup fotoğrafını silmek için yeterli hakkınız yok")
        return
     try:
         bot.delete_chat_photo(int(chat.id))
-        msg.reply_text("Successfully deleted chat's profile photo!")
+        msg.reply_text("Sohbetin profil fotoğrafı başarıyla silindi!")
     except BadRequest as excp:
        msg.reply_text(f"Error! {excp.message}.")
        return
@@ -332,7 +332,7 @@ def adminlist(bot: Bot, update: Update):
         if user.username:
             name = name = escape_markdown("@" + user.username)
         if status == "creator":
-            text += "\n 🔱 Creator:"
+            text += "\n 🔱 SAHİBİ:"
             text += "\n` • `{} \n\n • *Administrators*:".format(name)
     for admin in administrators:
         user = admin.user
@@ -343,9 +343,9 @@ def adminlist(bot: Bot, update: Update):
         if user.username:
             name = escape_markdown("@" + user.username)
             
-        if status == "administrator":
+        if status == "YÖNETİCİLER":
             text += "\n`👮🏻 `{}".format(name)
-            members = "\n\n*Members:*\n`🙍‍♂️ ` {} users".format(count)
+            members = "\n\n*ÜYELER:*\n`🙍‍♂️ ` {} users".format(count)
             
     msg.reply_text(text + members, parse_mode=ParseMode.MARKDOWN)
 
@@ -360,15 +360,14 @@ __help__ = """
  - /adminlist: list of admins in the chat
 
 *Admin only:*
- - /pin: silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
- - /unpin: unpins the currently pinned message
- - /invitelink: gets invitelink
- - /promote: promotes the user replied to
- - /demote: demotes the user replied to
- - /settitle: sets a custom title for an admin that the bot promoted.
- - /settitle: Sets a custom title for an admin which is promoted by bot.
- - /setgpic: As a reply to file or photo to set group profile pic!
- - /delgpic: Same as above but to remove group profile pic.
+ - /pin: yanıtlanan mesajı sessizce sabitler - kullanıcılara bildirim vermek için 'yüksek sesle' veya 'bildir' ekleyin.
+ - /unpin: şu anda sabitlenmiş mesajın sabitlemesini kaldırır - /invitelink: davet bağlantısını alır
+ - /promote: yanıtlanan kullanıcıyı tanıtır 
+- /demote: yanıtlanan kullanıcının sıralamasını düşürür 
+- /settitle: botun terfi ettirdiği bir yönetici için özel bir başlık ayarlar.
+ - /settitle: Bot tarafından terfi ettirilen bir yönetici için özel bir başlık ayarlar. 
+- /setgpic: Grup profili resmini ayarlamak için dosyaya veya fotoğrafa yanıt olarak!
+ - /delgpic: Yukarıdakiyle aynı, ancak grup profil resmini kaldırmak için..
 
 """
 
