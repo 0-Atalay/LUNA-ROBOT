@@ -324,14 +324,14 @@ def rmchatpic(bot: Bot, update: Update):
 def adminlist(bot: Bot, update: Update):
     administrators = update.effective_chat.get_administrators()
     msg = update.effective_message
-    text = "Admins in *{}*:".format(update.effective_chat.title or "bu sohbet")
+    text = "yöneticiler *{}*:".format(update.effective_chat.title or "bu sohbet")
     for admin in administrators:
         user = admin.user
         status = admin.status
         name = "[{}](tg://user?id={})".format(user.first_name + " " + (user.last_name or ""), user.id)
         if user.username:
             name = name = escape_markdown("@" + user.username)
-        if status == "creator":
+        if status == "sahibi ":
             text += "\n 🔱 Creator:"
             text += "\n` • `{} \n\n • *Administrators*:".format(name)
     for admin in administrators:
