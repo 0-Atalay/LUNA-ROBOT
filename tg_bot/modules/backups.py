@@ -47,7 +47,7 @@ def import_data(bot: Bot, update: Update):
                mod.__import_data__(str(chat.id), data)
         except Exception:
             msg.reply_text("Verilerinizi geri yüklerken bir istisna oluştu. İşlem tamamlanmamış olabilir.  "
-                           "Bununla ilgili sorunlarınız varsa, yedekleme dosyanızla @TURKCBOT'a mesaj gönderin, böylece ""
+                           "Bununla ilgili sorunlarınız varsa, yedekleme dosyanızla @TURKCBOT'a mesaj gönderin, böylece "
                            "sorun ayıklanabilir. Sahiplerim yardımcı olmaktan ve her hatadan memnuniyet duyacaktır "
                            "bildirilenler beni daha iyi yapıyor! Teşekkürler! :)")
             LOGGER.exception("%s adlı chatid %s için içe aktarma başarısız oldu.", str(chat.id), str(chat.title))
