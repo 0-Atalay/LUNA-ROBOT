@@ -197,7 +197,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                         }
                     })
                     new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
-                    message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 160 seconds.",
+                    message = msg.reply_text(f"{new_join_mem}, insan olduğunuzu kanıtlamak için aşağıdaki düğmeyi tıklayın.\n160 saniyeniz var",
                                              reply_markup=InlineKeyboardMarkup([{InlineKeyboardButton(
                                                  text="Evet! ben bir insanim 🤡👈",
                                                  callback_data=f"user_join_({new_mem.id})")}]),
@@ -326,8 +326,8 @@ def welcome(bot: Bot, update: Update, args: List[str]):
     if not args or args[0].lower() == "noformat":
         noformat = True
         pref, welcome_m, welcome_type = sql.get_welc_pref(chat.id)
-        update.effective_message.reply_text(f"This chat has it's welcome setting set to: `{pref}`.\n"
-                                            f"*The welcome message (not filling the {{}}) is:*",
+        update.effective_message.reply_text(f"Bu sohbetin karşılama ayarı şu şekilde ayarlanmıştır:: `{pref}`.\n"
+                                            f"*Karşılama mesajı ({{}} doldurulmuyor):*",
                                             parse_mode=ParseMode.MARKDOWN)
 
         if welcome_type == sql.Types.BUTTON_TEXT:
@@ -370,8 +370,8 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
     if not args or args[0] == "noformat":
         noformat = True
         pref, goodbye_m, goodbye_type = sql.get_gdbye_pref(chat.id)
-        update.effective_message.reply_text(f"This chat has it's goodbye setting set to: `{pref}`.\n"
-                                            f"*The goodbye  message (not filling the {{}}) is:*",
+        update.effective_message.reply_text(f"Bu sohbetin veda ayarı şu şekilde ayarlandı: `{pref}`.\n"
+                                            f"*Hoşçakal mesajı ({{}} doldurulmuyor):*",
                                             parse_mode=ParseMode.MARKDOWN)
 
         if goodbye_type == sql.Types.BUTTON_TEXT:
@@ -422,12 +422,12 @@ def set_welcome(bot: Bot, update: Update) -> str:
         return ""
 
     sql.set_custom_welcome(chat.id, content or text, data_type, buttons)
-    msg.reply_text("Successfully set custom welcome message!")
+    msg.reply_text("Özel karşılama mesajını başarıyla ayarla!")
 
     return (f"<b>{html.escape(chat.title)}:</b>\n"
             f"#SET_WELCOME\n"
             f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"Set the welcome message.")
+            f"Karşılama mesajını ayarlayın.")
 
 
 @run_async
@@ -443,7 +443,7 @@ def reset_welcome(bot: Bot, update: Update) -> str:
     return (f"<b>{html.escape(chat.title)}:</b>\n"
             f"#RESET_WELCOME\n"
             f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"Reset the welcome message to default.")
+            f"Karşılama mesajını varsayılana sıfırlayın.")
 
 
 @run_async
@@ -498,27 +498,27 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
             return (f"<b>{html.escape(chat.title)}:</b>\n"
                     f"#WELCOME_MUTE\n"
                     f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"Has toggled welcome mute to <b>OFF</b>.")
+                    f"Karşılama sesini <b>OFF</b> olarak değiştirdi.")
         elif args[0].lower() in ["soft"]:
             sql.set_welcome_mutes(chat.id, "soft")
-            msg.reply_text("I will restrict users' permission to send media for 24 hours.")
+            msg.reply_text("Kullanıcıların medya gönderme iznini 24 saat boyunca kısıtlayacağım.")
             return (f"<b>{html.escape(chat.title)}:</b>\n"
                     f"#WELCOME_MUTE\n"
                     f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"Has toggled welcome mute to <b>SOFT</b>.")
+                    f"Karşılama sesini <b>SOFT</b> olarak değiştirdi..")
         elif args[0].lower() in ["strong"]:
             sql.set_welcome_mutes(chat.id, "strong")
             msg.reply_text("Artık bot olmadıklarını kanıtlayana kadar katılanları sessize alacağım.\nAtılmadan önce 160 saniyeleri olacak.")
             return (f"<b>{html.escape(chat.title)}:</b>\n"
                     f"#WELCOME_MUTE\n"
                     f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"Has toggled welcome mute to <b>STRONG</b>.")
+                    f"Karşılama sesini <b>STRONG</b> olarak değiştirdi.")
         else:
-            msg.reply_text("Please enter `off`/`no`/`soft`/`strong`!", parse_mode=ParseMode.MARKDOWN)
+            msg.reply_text("lütfen `off`/`no`/`soft`/`strong`girin!", parse_mode=ParseMode.MARKDOWN)
             return ""
     else:
         curr_setting = sql.welcome_mutes(chat.id)
-        reply = (f"\n Give me a setting!\nChoose one out of: `off`/`no` or `soft` or `strong` only! \n"
+        reply = (f"\n Bana bir ayar verin!\nŞu seçeneklerden birini seçin:`off`/`no` veya `soft` veya `strong` yanlızca! \n"
                  f"Current setting: `{curr_setting}`")
         msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
         return ""
@@ -545,14 +545,14 @@ def clean_welcome(bot: Bot, update: Update, args: List[str]) -> str:
         return (f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#CLEAN_WELCOME\n"
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                f"Has toggled clean welcomes to <code>ON</code>.")
+                f"Temiz karşılamaları <code>ON</code> olarak değiştirdi.")
     elif args[0].lower() in ("off", "no"):
         sql.set_clean_welcome(str(chat.id), False)
         update.effective_message.reply_text("Eski karşılama mesajlarını silmeyeceğim.")
         return (f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#CLEAN_WELCOME\n"
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                f"Has toggled clean welcomes to <code>OFF</code>.")
+                f"Temiz karşılamaları <code>OFF</code> olarak değiştirdi.")
     else:
         update.effective_message.reply_text("sadece 'on/yes' veya 'off/no' anlıyorum 🤠!")
         return ""
@@ -594,7 +594,7 @@ def user_button(bot: Bot, update: Update):
         query.answer(text="Bunu yapmana izin verilmiyor!")
 
 
-WELC_HELP_TXT = ("Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages"
+WELC_HELP_TXT = ("Grubunuzun hoş geldin/hoşçakal mesajları birçok şekilde kişiselleştirilebilir. Mesajları isterseniz"
                  " to be individually generated, like the default welcome message is, you can use *these* variables:\n"
                  " - `{{first}}`: this represents the user's *first* name\n"
                  " - `{{last}}`: this represents the user's *last* name. Defaults to *first name* if user has no "
