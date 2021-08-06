@@ -47,11 +47,11 @@ def check_flood(bot: Bot, update: Update) -> str:
         return log_message
 
     except BadRequest:
-        msg.reply_text("I can't kick people here, give me permissions first! Until then, I'll disable antiflood.")
+        msg.reply_text("İnsanları burada tekmeleyemem, önce bana izin ver! O zamana kadar, antiflood'u devre dışı bırakacağım.")
         sql.set_flood(chat.id, 0)
         log_message = ("<b>{chat.title}:</b>\n"
                        "#INFO\n"
-                       "Don't have kick permissions, so automatically disabled antiflood.")
+                        Tekme izinleriniz yok, bu nedenle otomatik olarak antiflood devre dışı bırakıldı.")
 
         return log_message
 
