@@ -45,20 +45,20 @@ def send(update, message, keyboard, backup_message):
                                                                       "\nNote: mevcut iletide geçersiz bir url var "
                                                                       "düğmelerinden birinde. Lütfen güncelle."),
                                                       parse_mode=ParseMode.MARKDOWN)
-        elif excp.message == "Unsupported url protocol":
+        elif excp.message == "Desteklenmeyen url protokolü":
             msg = update.effective_message.reply_text(markdown_parser(backup_message +
                                                                       "\nNote: geçerli mesajın düğmeleri var "
                                                                       "tarafından desteklenmeyen url protokollerini kullanın "
                                                                       "telgramı. Lütfen güncelle."),
                                                       parse_mode=ParseMode.MARKDOWN)
-        elif excp.message == "Wrong url host":
+        elif excp.message == "yanlış url ana bilgisayarı":
             msg = update.effective_message.reply_text(markdown_parser(backup_message +
                                                                       "\nNote: mevcut mesajda bazı hatalı URL'ler var. "
                                                                       "Lütfen güncelle."),
                                                       parse_mode=ParseMode.MARKDOWN)
             LOGGER.warning(message)
             LOGGER.warning(keyboard)
-            LOGGER.exception("Could not parse! got invalid url host errors")
+            LOGGER.exception("Ayrıştırılamadı! geçersiz url ana bilgisayar hataları var")
         else:
             msg = update.effective_message.reply_text(markdown_parser(backup_message +
                                                                       "\nNote: gönderirken bir hata oluştu "
