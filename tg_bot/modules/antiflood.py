@@ -100,7 +100,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
             else:
                 sql.set_flood(chat.id, amount)
-                message.reply_text("Antiflood has been updated and set to {}{}".format(amount, chat_name),
+                message.reply_text("Antiflood güncellendi ve şu şekilde ayarlandı:{}{}".format(amount, chat_name),
                                    parse_mode=ParseMode.HTML)
                 log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
                                f"#SETFLOOD\n"
