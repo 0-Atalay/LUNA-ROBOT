@@ -42,7 +42,7 @@ def check_flood(bot: Bot, update: Update) -> str:
         log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
                        f"#MUTED\n"
                        f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"Flooded the group.\nMuted until an admin unmutes")
+                       f"Grubu su bastı.\nBir yönetici sesi açana kadar sessize alındı")
 
         return log_message
 
