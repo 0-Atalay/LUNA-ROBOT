@@ -150,9 +150,8 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- - /flood: Get the current flood control setting
+ -
 
-*Admin only:*
  - /flood: Mevcut sel kontrol ayarını alın
 
  *Yalnızca yönetici:* 
