@@ -81,7 +81,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
         if val == "off" or val == "no" or val == "0":
             sql.set_flood(chat.id, 0)
-            message.reply_text("Antiflood has been disabled{}.".format(chat_name), parse_mode=ParseMode.HTML)
+            message.reply_text("Antiflood devre dışı bırakıldı{}.".format(chat_name), parse_mode=ParseMode.HTML)
 
         elif val.isdigit():
             amount = int(val)
@@ -91,11 +91,11 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
                 log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
                                f"#SETFLOOD\n"
                                f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
-                               f"Disabled antiflood.")
+                               f"Engelli antisel.")
 
                 return log_message
             elif amount < 3:
-                message.reply_text("Antiflood has to be either 0 (disabled), or a number bigger than 3!")
+                message.reply_text("Antiflood ya 0 (devre dışı) ya da 3'ten büyük bir sayı olmalıdır!")
                 return log_message
 
             else:
@@ -105,11 +105,11 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
                 log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
                                f"#SETFLOOD\n"
                                f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
-                               f"Set antiflood to <code>{amount}</code>.")
+                               f"Antiflood'u <code>{amount}</code> olarak ayarlayın.")
 
                 return log_message
         else:
-            message.reply_text("Unrecognised argument - please use a number, 'off', or 'no'.")
+            message.reply_text("tanınmayan argüman - lütfen bir sayı , 'off', veya 'no' kullanin.")
 
     return log_message
 
@@ -129,11 +129,11 @@ def flood(bot: Bot, update: Update):
     limit = sql.get_flood_limit(chat.id)
 
     if limit == 0:
-        update.effective_message.reply_text(f"I'm not currently enforcing flood control{chat_name}!",
+        update.effective_message.reply_text(f,"Şu anda sel kontrolünü uygulamıyorum {chat_name}!",
                                             parse_mode=ParseMode.HTML)
     else:
-        update.effective_message.reply_text(f"I'm currently muting users if they send "
-                                            f"more than {limit} consecutive messages{chat_name}.",
+        update.effective_message.reply_text(f"Şu anda gönderdikleri takdirde kullanıcıları sessize alıyorum"
+                                            f"{limit} ardışık mesajdan{chat_name} fazla.",
                                             parse_mode=ParseMode.HTML)
 
 
@@ -144,18 +144,22 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, user_id):
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
-        return "*Not* currently enforcing flood control."
+        return "*Not* *Şu anda taşkın kontrolleri alınmıyor*."
     else:
-        return "Antiflood is set to `{}` messages.".format(limit)
+        return "Antiflood `{}` mesajlarına ayarlandı.".format(limit)
 
 
 __help__ = """
  - /flood: Get the current flood control setting
 
 *Admin only:*
- - /setflood <int/'no'/'off'>: enables or disables flood control
- Example: /setflood 10
- This will mute users if they send more than 10 messages in a row, bots are ignored.
+ - /flood: Mevcut sel kontrol ayarını alın
+
+ *Yalnızca yönetici:* 
+- /setflood <int/'no'/'off'>: sel kontrolünü etkinleştirir veya devre dışı bırakır
+
+
+ Örnek: /setflood 10 Bu, arka arkaya 10'dan fazla mesaj gönderirlerse kullanıcıları sessize alır, botlar yoksayılır..
 """
 
 FLOOD_BAN_HANDLER = MessageHandler(Filters.all & ~Filters.status_update & Filters.group, check_flood)
