@@ -38,10 +38,10 @@ def get_user_id(username):
                     return userdat.id
 
             except BadRequest as excp:
-                if excp.message == 'Chat not found':
+                if excp.message == 'Sohbet bulunamadı':
                     pass
                 else:
-                    LOGGER.exception("Error extracting user ID")
+                    LOGGER.exception("Kullanıcı kimliği çıkarılırken hata oluştu")
 
     return None
 
@@ -61,10 +61,10 @@ def broadcast(bot: Bot, update: Update):
                 sleep(0.1)
             except TelegramError:
                 failed += 1
-                LOGGER.warning("Couldn't send broadcast to %s, group name %s", str(chat.chat_id), str(chat.chat_name))
+                LOGGER.warning("%s grubuna yayın gönderilemedi, grup adı %s", str(chat.chat_id), str(chat.chat_name))
 
         update.effective_message.reply_text(
-            f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked.")
+            f"Yayın tamamlandı. {failed} grupları, muhtemelen atıldıkları için mesajı alamadı.")
 
 
 @run_async
@@ -100,7 +100,7 @@ def chats(bot: Bot, update: Update):
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "chatlist.txt"
         update.effective_message.reply_document(document=output, filename="chatlist.txt",
-                                                caption="Here is the list of chats in my Hit List.")
+                                                caption="İşte Hit Listemdeki sohbetlerin listesi.")
 
 
 def __stats__():
