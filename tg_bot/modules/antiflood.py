@@ -51,7 +51,7 @@ def check_flood(bot: Bot, update: Update) -> str:
         sql.set_flood(chat.id, 0)
         log_message = ("<b>{chat.title}:</b>\n"
                        "#INFO\n"
-                        Tekme izinleriniz yok, bu nedenle otomatik olarak antiflood devre dışı bırakıldı.")
+                        "Tekme izinleriniz yok, bu nedenle otomatik olarak antiflood devre dışı bırakıldı.")
 
         return log_message
 
