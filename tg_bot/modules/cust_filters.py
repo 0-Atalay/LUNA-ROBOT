@@ -232,17 +232,17 @@ def reply_filter(bot: Bot, update: Update):
                                        reply_markup=keyboard)
                 except BadRequest as excp:
                     if excp.message == "Desteklenmeyen url protokolü":
-                        message.reply_text("Desteklenmeyen bir url protokolü kullanmaya çalışıyor gibisiniz. Telegram "
-                                           "doesn't support buttons for some protocols, such as tg://. Please try "
-                                           "again help.")
+                        message.reply_text("Desteklenmeyen bir url protokolü kullanmaya çalışıyor gibisiniz "
+                                           "tg:// gibi bazı protokoller için düğmeleri desteklemiyor. Lütfen deneyin "
+                                           "tekrar yardım edin.")
                     elif excp.message == "Reply message not found":
                         bot.send_message(chat.id, filt.reply, parse_mode=ParseMode.MARKDOWN,
                                          disable_web_page_preview=True,
                                          reply_markup=keyboard)
                     else:
-                        message.reply_text("This note could not be sent, as it is incorrectly formatted.")
-                        LOGGER.warning("Message %s could not be parsed", str(filt.reply))
-                        LOGGER.exception("Could not parse filter %s in chat %s", str(filt.keyword), str(chat.id))
+                        message.reply_text("Bu not yanlış biçimlendirildiği için gönderilemedi.")
+                        LOGGER.warning("%s iletisi ayrıştırılamadı", str(filt.reply))
+                        LOGGER.exception("%s sohbetindeki %s filtresi ayrıştırılamadı", str(filt.keyword), str(chat.id))
 
             else:
                 # LEGACY - all new filters will have has_markdown set to True.
@@ -251,7 +251,7 @@ def reply_filter(bot: Bot, update: Update):
 
 
 def __stats__():
-    return "{} filters, across {} chats.".format(sql.num_filters(), sql.num_chats())
+    return "{} sohbette {} filtre.".format(sql.num_filters(), sql.num_chats())
 
 
 def __migrate__(old_chat_id, new_chat_id):
@@ -260,18 +260,16 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     cust_filters = sql.get_chat_triggers(chat_id)
-    return "There are `{}` custom filters here.".format(len(cust_filters))
+    return "Burada `{}` özel filtreler var.".format(len(cust_filters))
 
 
 __help__ = """
- - /filters: list all active filters in this chat.
+ - /filters: Bu sohbetteki tüm aktif filtreleri listeler.
 
-*Admin only:*
- - /filter <keyword> <reply message>: add a filter to this chat. The bot will now reply that message whenever 'keyword'\
-is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. NOTE: all filter \
-keywords are in lowercase. If you want your keyword to be a sentence, use quotes. eg: /filter "hey there" How you \
-doin?
- - /stop <filter keyword>: stop that filter.
+ *Yalnızca yönetici:*
+ - /filter <keyword> <cevap mesajı>: bu sohbete bir filtre ekleyin. Bot artık her 'anahtar kelime' olduğunda bu mesajı yanıtlayacaktır\ bahsediliyor. Bir çıkartmaya bir anahtar kelime ile cevap verirseniz, bot o çıkartma ile cevap verecektir.
+ NOT: tüm filtreler \ anahtar kelimeler küçük harflerle yazılmıştır. Anahtar kelimenizin bir cümle olmasını istiyorsanız, tırnak işaretleri kullanın. örneğin: /filter "hey orada" Nasılsın \ yapıyor? 
+- /stop <filter kelime>: o filtreyi durdurur.
 """
 
 __mod_name__ = "FILTERS"
