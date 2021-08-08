@@ -173,16 +173,16 @@ def stop_filter(bot: Bot, update: Update):
     chat_filters = sql.get_chat_triggers(chat_id)
 
     if not chat_filters:
-        update.effective_message.reply_text("No filters are active in *{}*!".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+        update.effective_message.reply_text("*{}* içinde etkin filtre yok!".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
         return
 
     for keyword in chat_filters:
         if keyword == args[1]:
             sql.remove_filter(chat_id, args[1])
-            update.effective_message.reply_text("Yep, I'll stop replying to that in *{}*.".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+            update.effective_message.reply_text("Evet, buna *{}* içinde yanıt vermeyi bırakacağım.".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
             raise DispatcherHandlerStop
 
-    update.effective_message.reply_text("That's not a current filter - run /filters for all active filters.")
+    update.effective_message.reply_text("Bu geçerli bir filtre değil - tüm etkin filtreler için /filters komutunu çalıştırın.")
 
 
 @run_async
@@ -231,8 +231,8 @@ def reply_filter(bot: Bot, update: Update):
                                        disable_web_page_preview=should_preview_disabled,
                                        reply_markup=keyboard)
                 except BadRequest as excp:
-                    if excp.message == "Unsupported url protocol":
-                        message.reply_text("You seem to be trying to use an unsupported url protocol. Telegram "
+                    if excp.message == "Desteklenmeyen url protokolü":
+                        message.reply_text("Desteklenmeyen bir url protokolü kullanmaya çalışıyor gibisiniz. Telegram "
                                            "doesn't support buttons for some protocols, such as tg://. Please try "
                                            "again help.")
                     elif excp.message == "Reply message not found":
