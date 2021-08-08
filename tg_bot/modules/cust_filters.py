@@ -20,7 +20,7 @@ from tg_bot.modules.sql import cust_filters_sql as sql
 from tg_bot.modules.connection import connected
 
 HANDLER_GROUP = 10
-BASIC_FILTER_STRING = "*Filters in this chat:*\n"
+BASIC_FILTER_STRING = "*Bu sohbetteki filtreler:*\n"
 
 
 @run_async
@@ -32,21 +32,21 @@ def list_handlers(bot: Bot, update: Update):
     if not conn == False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
-        filter_list = "*Filters in {}:*\n"
+        filter_list = "{}:*\n içindeki filtreler"
     else:
         chat_id = update.effective_chat.id
-        if chat.type == "private":
-            chat_name = "local filters"
-            filter_list = "*local filters:*\n"
+        if chat.type == "özel":
+            chat_name = "yerel filtreler"
+            filter_list = "*yerel filtreler:*\n"
         else:
             chat_name = chat.title
-            filter_list = "*Filters in {}*:\n".format(chat_name)
+            filter_list = "*{}*:\n içindeki filtreler".format(chat_name)
 
 
     all_handlers = sql.get_chat_triggers(chat_id)
 
     if not all_handlers:
-        update.effective_message.reply_text("No filters in *{}*!".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+        update.effective_message.reply_text("*{}* içinde filtre yok!".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
         return
 
     for keyword in all_handlers:
@@ -75,8 +75,8 @@ def filters(bot: Bot, update: Update):
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         chat_id = update.effective_chat.id
-        if chat.type == "private":
-            chat_name = "local filters"
+        if chat.type == "özel":
+            chat_name = "yerel filtreler"
         else:
             chat_name = chat.title
 
@@ -103,7 +103,7 @@ def filters(bot: Bot, update: Update):
         content, buttons = button_markdown_parser(extracted[1], entities=msg.parse_entities(), offset=offset)
         content = content.strip()
         if not content:
-            msg.reply_text("There is no note message - You can't JUST have buttons, you need a message to go with it!")
+            msg.reply_text("Not mesajı yok - SADECE düğmeleriniz olamaz, onunla birlikte gitmek için bir mesaja ihtiyacınız var!")
             return
 
     elif msg.reply_to_message and msg.reply_to_message.sticker:
@@ -145,7 +145,7 @@ def filters(bot: Bot, update: Update):
     sql.add_filter(chat_id, keyword, content, is_sticker, is_document, is_image, is_audio, is_voice, is_video,
                    buttons)
 
-    msg.reply_text("Handler '{}' added in *{}*!".format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+    msg.reply_text("İşleyici '{}' *{}* içine eklendi!".format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
     raise DispatcherHandlerStop
 
 
