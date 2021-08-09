@@ -152,35 +152,35 @@ def unblackliststicker(bot: Bot, update: Update):
 		if len(to_unblacklist) == 1:
 			if successful:
 				send_message(update.effective_message, "Sticker <code>{}</code> deleted from blacklist in <b>{}</b>!".format(html.escape(to_unblacklist[0]), chat_name),
-							   parse_mode=ParseMode.HTML)
+							   parse_mode=ParseMode.HTML
 			else:
-				send_message(update.effective_message, "This is not on the blacklist stickers...!")
+				send_message(update.effective_message, "Bu kara liste çıkartmalarında yok...!")
 
 		elif successful == len(to_unblacklist):
-			send_message(update.effective_message, "Sticker <code>{}</code> deleted from blacklist in <b>{}</b>!".format(
+			send_message(update.effective_message, "<code>{}</code> etiketi, <b>{}</b> içindeki kara listeden silindi!".format(
 					successful, chat_name), parse_mode=ParseMode.HTML)
 
 		elif not successful:
-			send_message(update.effective_message, "None of these stickers exist, so they cannot be removed.".format(
+			send_message(update.effective_message, "Bu çıkartmaların hiçbiri mevcut olmadığından kaldırılamazlar.".format(
 					successful, len(to_unblacklist) - successful), parse_mode=ParseMode.HTML)
 
 		else:
-			send_message(update.effective_message, "Sticker <code>{}</code> deleted from blacklist. {} did not exist, so it's not deleted.".format(successful, len(to_unblacklist) - successful),
+			send_message(update.effective_message, "<code>{}</code> etiketi kara listeden silindi. {} mevcut değildi, bu yüzden silinmedi.".format(successful, len(to_unblacklist) - successful),
 				parse_mode=ParseMode.HTML)
 	elif msg.reply_to_message:
 		trigger = msg.reply_to_message.sticker.set_name
 		if trigger == None:
-			send_message(update.effective_message, "Sticker is invalid!")
+			send_message(update.effective_message, "Çıkartma geçersiz!")
 			return
 		success = sql.rm_from_stickers(chat_id, trigger.lower())
 
 		if success:
-			send_message(update.effective_message, "Sticker <code>{}</code> deleted from blacklist in <b>{}</b>!".format(trigger, chat_name),
+			send_message(update.effective_message, "<code>{}</code> etiketi, <b>{}</b> içindeki kara listeden silindi!".format(trigger, chat_name),
 							   parse_mode=ParseMode.HTML)
 		else:
-			send_message(update.effective_message, "{} not found on blacklisted stickers...!".format(trigger))
+			send_message(update.effective_message, "{} kara listeye alınmış çıkartmalarda bulunamadı...!".format(trigger))
 	else:
-		send_message(update.effective_message, "Tell me what stickers you want to add to the blacklist stickers.")
+		send_message(update.effective_message, "Kara liste çıkartmalarına hangi çıkartmaları eklemek istediğini söyle")
 
 @run_async
 @loggable
@@ -198,7 +198,7 @@ def blacklist_mode(bot: Bot, update: Update, args: List[str]):
 		chat_name = dispatcher.bot.getChat(conn).title
 	else:
 		if update.effective_message.chat.type == "private":
-			send_message(update.effective_message, "You can do this command in groups, not PM")
+			send_message(update.effective_message, "Bu komutu PM değil, gruplar halinde yapabilirsiniz.")
 			return ""
 		chat = update.effective_chat
 		chat_id = update.effective_chat.id
@@ -225,16 +225,16 @@ def blacklist_mode(bot: Bot, update: Update, args: List[str]):
 			sql.set_blacklist_strength(chat_id, 5, "0")
 		elif args[0].lower() == 'tban':
 			if len(args) == 1:
-				teks = """It looks like you are trying to set a temporary value to blacklist, but has not determined the time; use `/blstickermode tban <timevalue>`.
-                                          Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+				teks = """kara listeye geçici bir değer koymaya çalışıyorsunuz, ancak zamanı belirlemediniz; `/blstickermode tban <timevalue>` kullanın.
+                                 Zaman değerlerine örnekler: 4munite = 4 dakika, 3h = 3 saat, 6d = 6 gün, 5w = 5 hafta"""
 				send_message(update.effective_message, teks, parse_mode="markdown")
 				return
 			settypeblacklist = 'temporary banned for {}'.format(args[1])
 			sql.set_blacklist_strength(chat_id, 6, str(args[1]))
 		elif args[0].lower() == 'tmute':
 			if len(args) == 1:
-				teks = """It looks like you are trying to set a temporary value to blacklist, but has not determined the time; use `/blstickermode tmute <timevalue>`.
-                                          Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+				teks = """Kara listeye geçici bir değer koymaya çalışıyorsunuz ama zamanı belirlememişsiniz gibi görünüyor; `/blstickermode tmute <timevalue>` kullanın. 
+                                          Zaman değerlerine örnekler: 4m = 4 dakika, 3h = 3 saat, 6d = 6 gün, 5w = 5 hafta"""
 				send_message(update.effective_message, teks, parse_mode="markdown")
 				return
 			settypeblacklist = tl(update.effective_message, 'temporary muted for {}').format(args[1])
