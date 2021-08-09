@@ -42,7 +42,7 @@ def blackliststicker(bot: Bot, update: Update, args: List[str]):
 			chat_id = update.effective_chat.id
 			chat_name = chat.title
 		
-	sticker_list = "<b>List black stickers currently in {}:</b>\n".format(chat_name)
+	sticker_list = "<b>Şu anda {}:</b> içindeki siyah çıkartmaları listele\n".format(chat_name)
 
 	all_stickerlist = sql.get_chat_stickers(chat_id)
 
@@ -55,7 +55,7 @@ def blackliststicker(bot: Bot, update: Update, args: List[str]):
 
 	split_text = split_message(sticker_list)
 	for text in split_text:
-		if sticker_list == "<b>List black stickers currently in {}:</b>\n".format(chat_name).format(chat_name):
+		if sticker_list == "<b>Şu anda {}:</b> içindeki siyah çıkartmaları listele\n".format(chat_name).format(chat_name):
 			send_message(update.effective_message, "There is no blacklist sticker in <b>{}</b>!".format(chat_name), parse_mode=ParseMode.HTML)
 			return
 	send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
@@ -90,35 +90,35 @@ def add_blackliststicker(bot: Bot, update: Update):
 				sql.add_to_stickers(chat_id, trigger.lower())
 				added += 1
 			except BadRequest:
-				send_message(update.effective_message, "Sticker `{}` can not be found!".format(trigger), parse_mode="markdown")
+				send_message(update.effective_message, " `{}` etiketi bulunamadı!".format(trigger), parse_mode="markdown")
 
 		if added == 0:
 			return
 
 		if len(to_blacklist) == 1:
-			send_message(update.effective_message, "Sticker <code>{}</code> added to blacklist stickers in <b>{}</b>!".format(html.escape(to_blacklist[0]), chat_name),
+			send_message(update.effective_message, "<b>{}</b> içindeki çıkartmalar kara listeye <code>{}</code> eklendi!".format(html.escape(to_blacklist[0]), chat_name),
 				parse_mode=ParseMode.HTML)
 		else:
-			send_message(update.effective_message, "<code>{}</code> stickers added to blacklist sticker in <b>{}</b>!".format(added, chat_name), parse_mode=ParseMode.HTML)
+			send_message(update.effective_message, "<b>{}</b> içindeki kara liste çıkartmasına <code>{}</code> çıkartma eklendi!".format(added, chat_name), parse_mode=ParseMode.HTML)
 	elif msg.reply_to_message:
 		added = 0
 		trigger = msg.reply_to_message.sticker.set_name
 		if trigger == None:
-			send_message(update.effective_message, "Sticker is invalid!")
+			send_message(update.effective_message, "Çıkartma geçersiz!")
 			return
 		try:
 			get = bot.getStickerSet(trigger)
 			sql.add_to_stickers(chat_id, trigger.lower())
 			added += 1
 		except BadRequest:
-			send_message(update.effective_message, "Sticker `{}` can not be found!".format(trigger), parse_mode="markdown")
+			send_message(update.effective_message, " `{}` etiketi bulunamadı!".format(trigger), parse_mode="markdown")
 
 		if added == 0:
 			return
 
-		send_message(update.effective_message, "Sticker <code>{}</code> added to blacklist stickers in <b>{}</b>!".format(trigger, chat_name), parse_mode=ParseMode.HTML)
+		send_message(update.effective_message, "<code>{}</code> etiketi, <b>{}</b> içindeki kara liste çıkartmalarına eklendi!".format(trigger, chat_name), parse_mode=ParseMode.HTML)
 	else:
-		send_message(update.effective_message, "Tell me what stickers you want to add to the blacklist stickers.")
+		send_message(update.effective_message, "Kara liste çıkartmalarına eklemek istediğiniz çıkartmaları söyleyin.")
 
 @run_async
 @user_admin
