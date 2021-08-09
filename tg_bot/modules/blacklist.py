@@ -28,7 +28,7 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
     if update_chat_title == message_chat_title:
         base_blacklist_string = "Mevcut <b>kara listeye alınmış</b> kelimeler:\n"
     else:
-        base_blacklist_string = f"Current <b>blacklisted</b> words in <b>{update_chat_title}</b>:\n"
+        base_blacklist_string = f"<b>{update_chat_title}</b> içindeki mevcut <b>kara listeye alınmış</b> kelimeler:\n"
 
     all_blacklisted = sql.get_chat_blacklist(chat.id)
 
@@ -45,9 +45,9 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
     for text in split_text:
         if text == base_blacklist_string:
             if update_chat_title == message_chat_title:
-                msg.reply_text("There are no blacklisted messages here!")
+                msg.reply_text("Burada kara listeye alınmış mesaj yok!")
             else:
-                msg.reply_text(f"There are no blacklisted messages in <b>{update_chat_title}</b>!",
+                msg.reply_text(f"<b>{update_chat_title}</b> içinde kara listeye alınmış mesaj yok!",
                                parse_mode=ParseMode.HTML)
             return
         msg.reply_text(text, parse_mode=ParseMode.HTML)
@@ -69,15 +69,15 @@ def add_blacklist(bot: Bot, update: Update):
             sql.add_to_blacklist(chat.id, trigger.lower())
 
         if len(to_blacklist) == 1:
-            msg.reply_text(f"Added <code>{html.escape(to_blacklist[0])}</code> to the blacklist!",
+            msg.reply_text(f"Kara listeye <code>{html.escape(to_blacklist[0])}</code> eklendi!",
                            parse_mode=ParseMode.HTML)
 
         else:
-            msg.reply_text(f"Added <code>{len(to_blacklist)}</code> triggers to the blacklist.",
+            msg.reply_text(f"Kara listeye <code>{len(to_blacklist)}</code> tetikleyicileri eklendi.",
                            parse_mode=ParseMode.HTML)
 
     else:
-        msg.reply_text("Tell me which words you would like to remove from the blacklist.")
+        msg.reply_text("Kara listeden hangi kelimeleri çıkarmak istediğini söyle.")
 
 
 @run_async
@@ -100,23 +100,23 @@ def unblacklist(bot: Bot, update: Update):
 
         if len(to_unblacklist) == 1:
             if successful:
-                msg.reply_text(f"Removed <code>{html.escape(to_unblacklist[0])}</code> from the blacklist!",
+                msg.reply_text(f"Kara listeden <code>{html.escape(to_unblacklist[0])}</code> kaldırıldı!",
                                parse_mode=ParseMode.HTML)
             else:
-                msg.reply_text("This isn't a blacklisted trigger...!")
+                msg.reply_text("Bu kara listeye alınmış bir tetikleyici değil...!")
 
         elif successful == len(to_unblacklist):
-            msg.reply_text(f"Removed <code>{successful}</code> triggers from the blacklist.", parse_mode=ParseMode.HTML)
+            msg.reply_text(f"Kara listeden <code>{successful}</code> tetikleyicileri kaldırıldı.", parse_mode=ParseMode.HTML)
 
         elif not successful:
-            msg.reply_text("None of these triggers exist, so they weren't removed.", parse_mode=ParseMode.HTML)
+            msg.reply_text("Bu tetikleyicilerin hiçbiri mevcut olmadığından kaldırılmadı.", parse_mode=ParseMode.HTML)
 
         else:
-            msg.reply_text(f"Removed <code>{successful}</code> triggers from the blacklist."
-                           f" {len(to_unblacklist) - successful} did not exist, so were not removed.",
+            msg.reply_text(f"Kara listeden <code>{successful}</code> tetikleyicileri kaldırıldı."
+                           f" {len(to_unblacklist) - successful} mevcut değildi, dolayısıyla kaldırılmadı.",
                            parse_mode=ParseMode.HTML)
     else:
-        msg.reply_text("Tell me which words you would like to remove from the blacklist.")
+        msg.reply_text("Kara listeden hangi kelimeleri çıkarmak istediğini söyle.")
 
 
 @run_async
@@ -137,10 +137,10 @@ def del_blacklist(bot: Bot, update: Update):
             try:
                 message.delete()
             except BadRequest as excp:
-                if excp.message == "Message to delete not found":
+                if excp.message == "Silinecek mesaj bulunamadı":
                     pass
                 else:
-                    LOGGER.exception("Error while deleting blacklist message.")
+                    LOGGER.exception("Kara liste mesajı silinirken hata oluştu.")
             break
 
 
@@ -150,28 +150,27 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     blacklisted = sql.num_blacklist_chat_filters(chat_id)
-    return "There are {} blacklisted words.".format(blacklisted)
+    return "{} kara listeye alınmış kelime var.".format(blacklisted)
 
 
 def __stats__():
-    return "{} blacklist triggers, across {} chats.".format(sql.num_blacklist_filters(),
+    return "{} sohbetlerde {} kara liste tetiklenir.".format(sql.num_blacklist_filters(),
                                                             sql.num_blacklist_filter_chats())
 
 
 __help__ = """
-Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, \
-the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!
+Kara listeler, belirli tetikleyicilerin bir grupta söylenmesini engellemek için kullanılır. Tetikleyiciden bahsedildiğinde, \ mesaj hemen silinecektir. Bazen bunu uyarı filtreleriyle eşleştirmek iyi bir kombinasyondur! 
 
-*NOTE:* blacklists do not affect group admins.
 
- - /blacklist: View the current blacklisted words.
+*NOT:* kara listeler grup yöneticilerini etkilemez. 
 
-*Admin only:*
- - /addblacklist <triggers>: Add a trigger to the blacklist. Each line is considered one trigger, so using different \
-lines will allow you to add multiple triggers.
- - /unblacklist <triggers>: Remove triggers from the blacklist. Same newline logic applies here, so you can remove \
-multiple triggers at once.
- - /rmblacklist <triggers>: Same as above.
+- /kara liste: Mevcut kara listeye alınmış kelimeleri görüntüleyin. 
+
+*Yalnızca yönetici:*
+
+ - /addblacklist <tetikleyiciler>: Kara listeye bir tetikleyici ekleyin. Her satır bir tetikleyici olarak kabul edilir, bu nedenle farklı \ satırları, birden çok tetikleyici eklemenize izin verir. 
+- /unblacklist <tetikleyiciler>: Tetikleyicileri kara listeden kaldırın. Aynı satırsonu mantığı burada da geçerlidir, böylece \'yi kaldırabilirsiniz. aynı anda birden fazla tetikleyici. 
+- /rmblacklist <tetikleyiciler>: Yukarıdakiyle aynı. 
 """
 
 BLACKLIST_HANDLER = DisableAbleCommandHandler("blacklist", blacklist, pass_args=True, admin_ok=True)
