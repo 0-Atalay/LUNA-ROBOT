@@ -26,7 +26,7 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
     message_chat_title = update.effective_message.chat.title
 
     if update_chat_title == message_chat_title:
-        base_blacklist_string = "Current <b>blacklisted</b> words:\n"
+        base_blacklist_string = "Mevcut <b>kara listeye alınmış</b> kelimeler:\n"
     else:
         base_blacklist_string = f"Current <b>blacklisted</b> words in <b>{update_chat_title}</b>:\n"
 
