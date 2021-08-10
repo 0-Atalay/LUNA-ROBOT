@@ -28,9 +28,9 @@ def add_chat(bot: Bot, update: Update):
         ses_id = str(ses.id)
         expires = str(ses.expires)
         sql.set_ses(chat_id, ses_id, expires)
-        msg.reply_text("AI successfully enabled for this chat!")
+        msg.reply_text("AI bu sohbet için başarıyla etkinleştirildi!")
     else:
-        msg.reply_text("AI is already enabled for this chat!")
+        msg.reply_text("AI bu sohbet için zaten etkin!")
         
         
 @run_async
@@ -39,10 +39,10 @@ def remove_chat(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     is_chat = sql.is_chat(chat_id)
     if not is_chat:
-        msg.reply_text("AI isn't enabled here in the first place!")
+        msg.reply_text("AI ilk etapta burada etkin değil!")
     else:
         sql.rem_chat(chat_id)
-        msg.reply_text("AI disabled successfully!")
+        msg.reply_text("AI başarıyla devre dışı bırakıldı!")
         
         
 def check_message(bot: Bot, message):
@@ -87,14 +87,12 @@ def chatbot(bot: Bot, update: Update):
             bot.send_message(OWNER_ID, f"Chatbot error: {e} occurred in {chat_id}!")
                     
 
-__mod_name__ = "CHAT BOT"
+__mod_name__ = "CHAT BOT🤖"
 
 __help__ = """
-
-Powered by CoffeeHouse (https://coffeehouse.intellivoid.net/) from @Intellivoid
-
- - /addchat : Enables Chatbot mode in the chat.
- - /rmchat  : Disables Chatbot mode in the chat.
+@Intellivoid'den CoffeeHouse (https://coffeehouse.intellivoid.net/) tarafından desteklenmektedir 
+- /addchat : Sohbette Chatbot modunu etkinleştirir. 
+- /rmchat : Sohbette Chatbot modunu devre dışı bırakır.
 """
                   
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, filters=CustomFilters.dev_filter)
