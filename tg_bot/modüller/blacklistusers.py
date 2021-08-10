@@ -26,28 +26,28 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("I doubt that's a user.")
+        message.reply_text("bunun bir kullanıcı olduğundan şüpheliyim.")
         return ""
 
     if user_id == bot.id:
-        message.reply_text("How am I supposed to do my work if I am ignoring myself?")
+        message.reply_text("Kendimi görmezden geliyorsam işimi nasıl yapacağım?")
         return ""
 
     if user_id in BLACKLISTWHITELIST:
-        message.reply_text("No!\nNoticing Disasters is my job.")
+        message.reply_text("Hayır!\nAfetleri fark etmek benim işim.")
         return ""
 
     try:
         target_user = bot.get_chat(user_id)
     except BadRequest as excp:
         if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user.")
+            message.reply_text("Bu kullanıcıyı bulamıyorum.")
             return ""
         else:
             raise
 
     sql.blacklist_user(user_id, reason)
-    message.reply_text("I shall ignore the existence of this user!")
+    message.reply_text("Bu kullanıcının varlığını görmezden geleceğim!")
     log_message = (f"#BLACKLIST\n"
                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                    f"<b>User:</b> {mention_html(target_user.id, target_user.first_name)}")
@@ -67,18 +67,18 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
     user_id = extract_user(message, args)
 
     if not user_id:
-        message.reply_text("I doubt that's a user.")
+        message.reply_text("Bunun bir kullanıcı olduğundan şüpheliyim.")
         return ""
 
     if user_id == bot.id:
-        message.reply_text("I always notice myself.")
+        message.reply_text("Her zaman kendimi fark ederim.")
         return ""
 
     try:
         target_user = bot.get_chat(user_id)
     except BadRequest as excp:
         if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user.")
+            message.reply_text("Bu kullanıcıyı bulamıyorum.")
             return ""
         else:
             raise
@@ -86,7 +86,7 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
     if sql.is_user_blacklisted(user_id):
 
         sql.unblacklist_user(user_id)
-        message.reply_text("*notices user*")
+        message.reply_text("*kullanıcıyı uyarır*")
         log_message = (f"#UNBLACKLIST\n"
                        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                        f"<b>User:</b> {mention_html(target_user.id, target_user.first_name)}")
@@ -94,7 +94,7 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
         return log_message
 
     else:
-        message.reply_text("I am not ignoring them at all though!")
+        message.reply_text("Yine de onları görmezden gelmiyorum!")
         return ""
 
 
@@ -113,9 +113,9 @@ def bl_users(bot: Bot, update: Update):
         else:
             users.append(f"• {mention_html(user.id, user.first_name)}")
 
-    message = "<b>Blacklisted Users</b>\n"
+    message = "<b>Kara Listeye Alınan Kullanıcılar</b>\n"
     if not users:
-        message += "Noone is being ignored as of yet."
+        message += "Henüz kimse görmezden gelinmiyor."
     else:
         message += '\n'.join(users)
 
@@ -125,13 +125,13 @@ def bl_users(bot: Bot, update: Update):
 def __user_info__(user_id):
     is_blacklisted = sql.is_user_blacklisted(user_id)
 
-    text = "Globally Ignored: <b>{}</b>"
+    text = "Genel Olarak Yok Sayılan: <b>{}</b>"
 
     if is_blacklisted:
         text = text.format("Yes")
         reason = sql.get_reason(user_id)
         if reason:
-            text += f"\nReason: <code>{reason}</code>"
+            text += f"\nNedeni: <code>{reason}</code>"
     else:
         text = text.format("No")
 
@@ -146,5 +146,5 @@ dispatcher.add_handler(BL_HANDLER)
 dispatcher.add_handler(UNBL_HANDLER)
 dispatcher.add_handler(BLUSERS_HANDLER)
 
-__mod_name__ = "BLACKLISTING USERS"
+__mod_name__ = "BLACKLISTING USERS⚫"
 __handlers__ = [BL_HANDLER, UNBL_HANDLER, BLUSERS_HANDLER]
