@@ -263,7 +263,7 @@ def getDefense(bot: Bot, update: Update):
 #     welcome = welcome.replace('$rules', '{rules}')
 #     sql.set_custom_welcome(chat_id, welcome, sql.Types.TEXT)
 ABOUT_CAS ="\n\nCAS, Telegram gruplarındaki spam göndericileri tespit etmek için tasarlanmış otomatik bir sistem olan Combot Anti-Spam anlamına gelir"
-           "\ "\nSpam kaydı olan bir kullanıcı CAS korumalı bir gruba bağlanırsa, CAS sistemi o kullanıcıyı hemen yasaklayacaktır."\ 
+           "\nSpam kaydı olan bir kullanıcı CAS korumalı bir gruba bağlanırsa, CAS sistemi o kullanıcıyı hemen yasaklayacaktır."\ 
            "\n\n<i>CAS yasakları kalıcıdır, tartışılamaz ve Combot topluluk yöneticileri tarafından kaldırılamaz.</i>" \ 
            "\n<i>Bir CAS yasağının yanlış verildiği belirlenirse, otomatik olarak kaldırılacaktır.</i>"
 
