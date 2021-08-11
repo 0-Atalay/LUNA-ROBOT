@@ -264,8 +264,7 @@ def getDefense(bot: Bot, update: Update):
 #     sql.set_custom_welcome(chat_id, welcome, sql.Types.TEXT)
 ABOUT_CAS =  "<b>Combot Anti-Spam Sistemi (CAS)</b>" \
             "\n\nCAS, Telegram gruplarındaki spam göndericileri tespit etmek için tasarlanmış otomatik bir sistem olan Combot Anti-Spam'in kısaltmasıdır."\
-            "\nHerhangi bir istenmeyen e-posta kaydına sahip bir kullanıcı, CAS güvenli bir gruba bağlanırsa, CAS sistemi o kullanıcıyı derhal yasaklayacaktır.
-."\
+            "\nHerhangi bir istenmeyen e-posta kaydına sahip bir kullanıcı, CAS güvenli bir gruba bağlanırsa, CAS sistemi o kullanıcıyı derhal yasaklayacaktır."\
             "\n\n<i>CAS yasakları kalıcıdır, tartışılamaz ve Combot topluluk yöneticileri tarafından kaldırılamaz.</i>" \
             "\n<i>Bir CAS yasağının yanlış verildiği belirlenirse, otomatik olarak kaldırılacaktır.</i>"
 
