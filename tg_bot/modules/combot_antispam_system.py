@@ -184,12 +184,12 @@ def gbanChat(bot: Bot, update: Update, args: List[str]):
         try:
             banner = update.effective_user
             send_to_list(bot, SUDO_USERS,
-                     "<b>Sohbet Kara Listesi</b>" \ 
-                     "\n#BLCHAT" \ 
-                     "\n<b>Durum:</b> <code>Kara listeye alındı</code>" \ 
-                     "\n<b>Sudo Yöneticisi:</b> {}" \
-                     "\n<b>Sohbet Adı:</b> {}" \ 
-                     "\n<b>Kimlik:</b> <code>{}</code>".format(mention_html(banner.id, banner.first_name),userssql.get_chat_name(chat_id),chat_id), html=True)
+                    "<b>Chat Blacklist</b>" \
+                     "\n#BLCHAT" \
+                     "\n<b>Status:</b> <code>Blacklisted</code>" \
+                     "\n<b>Sudo Admin:</b> {}" \
+                     "\n<b>Chat Name:</b> {}" \
+                     "\n<b>ID:</b> <code>{}</code>".format(mention_html(banner.id, banner.first_name),userssql.get_chat_name(chat_id),chat_id), html=True)
             sql.blacklistChat(chat_id)
             update.effective_message.reply_text("Sohbet başarıyla kara listeye alındı!")
             try:
@@ -209,12 +209,12 @@ def ungbanChat(bot: Bot, update: Update, args: List[str]):
         try:
             banner = update.effective_user
             send_to_list(bot, SUDO_USERS,
-                      "<b>Sohbet Kara Listesi</b>" \
-                      "\n#BLCHAT" \ 
-                      "\n<b>Durum:</b> <code>Kara listeye alındı</code>" \
-                      "\n<b>Sudo Yöneticisi:</b> {}" \
-                      "\n<b>Sohbet Adı:</b> {}" \ 
-                      "\n<b>Kimlik:</b> <code>{}</code> ".format(mention_html(banner.id, banner.first_name),userssql.get_chat_name(chat_id),chat_id), html=True)
+                     "<b>Chat Blacklist</b>" \
+                     "\n#BLCHAT" \
+                     "\n<b>Status:</b> <code>Blacklisted</code>" \
+                     "\n<b>Sudo Admin:</b> {}" \
+                     "\n<b>Chat Name:</b> {}" \
+                     "\n<b>ID:</b> <code>{}</code>".format(mention_html(banner.id, banner.first_name),userssql.get_chat_name(chat_id),chat_id), html=True)
             sql.unblacklistChat(chat_id)
             update.effective_message.reply_text("Sohbet başarıyla kara listeden çıkarıldı!!")
         except:
