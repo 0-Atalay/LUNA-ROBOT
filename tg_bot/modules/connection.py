@@ -27,22 +27,22 @@ def allow_connections(bot: Bot, update: Update, args: List[str]):
             var = args[0]
             if var == "no":
                 sql.set_allow_connect_to_chat(chat.id, False)
-                send_message(update.effective_message, "Connection has been disabled for this chat")
+                send_message(update.effective_message, "Bu sohbet için bağlantı devre dışı bırakıldı")
             elif var == "yes":
                 sql.set_allow_connect_to_chat(chat.id, True)
-                send_message(update.effective_message, "Connection has been enabled for this chat")
+                send_message(update.effective_message, "Bu sohbet için bağlantı etkinleştirildi")
             else:
-                send_message(update.effective_message, "Please enter `yes` or `no`!", parse_mode=ParseMode.MARKDOWN)
+                send_message(update.effective_message, "şunları girin lütfen `yes` veya `no`!", parse_mode=ParseMode.MARKDOWN)
         else:
             get_settings = sql.allow_connect_to_chat(chat.id)
             if get_settings:
-                send_message(update.effective_message, "Connections to this group are *Allowed* for members!",
+                send_message(update.effective_message, "Bu gruba bağlantılara üyeler için  *Allowed* (izin verilir) !",
                              parse_mode=ParseMode.MARKDOWN)
             else:
-                send_message(update.effective_message, "Connection to this group are *Not Allowed* for members!",
+                send_message(update.effective_message, "Bu gruba bağlantı üyeler için (İzin Verilmez) *Not Allowed* !",
                              parse_mode=ParseMode.MARKDOWN)
     else:
-        send_message(update.effective_message, "This command is for group only. Not in PM!")
+        send_message(update.effective_message, "Bu komut sadece grup içindir. PM'de değil!")
 
 
 @run_async
@@ -61,9 +61,9 @@ def connection_chat(bot: Bot, update: Update):
         chat_name = chat.title
 
     if conn:
-        message = "You are currently connected with {}.\n".format(chat_name)
+        message = "Şu anda ile bağlısınız {}.\n".format(chat_name)
     else:
-        message = "You are currently not connected in any group.\n"
+        message = "Şu anda herhangi bir gruba bağlı değilsiniz.\n"
     send_message(msg, message, parse_mode="markdown")
 
 
@@ -85,10 +85,10 @@ def connect_chat(bot: Bot, update: Update, args: List[str]):
                     connect_chat = get_chat.id
                     getstatusadmin = bot.get_chat_member(connect_chat, msg.from_user.id)
                 except BadRequest:
-                    send_message(msg, "Invalid Chat ID!")
+                    send_message(msg, "Geçersiz Sohbet Kimliği!")
                     return
             except BadRequest:
-                send_message(msg, "Invalid Chat ID!")
+                send_message(msg, "Geçersiz Sohbet Kimliği!")
                 return
 
             isadmin = getstatusadmin.status in ADMIN_STATUS
@@ -100,32 +100,32 @@ def connect_chat(bot: Bot, update: Update, args: List[str]):
                 if connection_status:
                     conn_chat = dispatcher.bot.getChat(connected(bot, update, chat, user.id, need_admin=False))
                     chat_name = conn_chat.title
-                    send_message(msg, "Successfully connected to *{chat_name}*."
-                                      " Use /connection for see current available commands.",
+                    send_message(msg, "Başarıyla bağlandı *{chat_name}*."
+                                      "Mevcut mevcut komutları görmek için /connection kullanın.",
                                  parse_mode=ParseMode.MARKDOWN)
                     sql.add_history_conn(user.id, str(conn_chat.id), chat_name)
                 else:
-                    send_message(msg, "Connection failed!")
+                    send_message(msg, "Bağlantı başarısız!")
             else:
-                send_message(msg, "Connection to this chat is not allowed!")
+                send_message(msg, "Bu sohbete bağlantıya izin verilmiyor!")
         else:
             gethistory = sql.get_history_conn(user.id)
             if gethistory:
                 buttons = [
-                    InlineKeyboardButton(text="❎ Close button", callback_data="connect_close"),
-                    InlineKeyboardButton(text="🧹 Clear history", callback_data="connect_clear")
+                    InlineKeyboardButton(text="❎ Kapat düğmesi", callback_data="connect_close"),
+                    InlineKeyboardButton(text="🧹 Geçmişi temizle", callback_data="connect_clear")
                 ]
             else:
                 buttons = []
             conn = connected(bot, update, chat, user.id, need_admin=False)
             if conn:
                 connectedchat = dispatcher.bot.getChat(conn)
-                text = "You are connected to *{}* (`{}`)".format(connectedchat.title, conn)
+                text = "bağlısın *{}* (`{}`)".format(connectedchat.title, conn)
                 buttons.append(InlineKeyboardButton(text="🔌 Disconnect", callback_data="connect_disconnect"))
             else:
-                text = "Write the chat ID or tag to connect!"
+                text =" Bağlanmak için sohbet kimliğini veya etiketi yazın!"
             if gethistory:
-                text += "\n\n*Connection history:*\n"
+                text += "\n\n*Bağlantı geçmişi:*\n"
                 text += "╒═══「 *Info* 」\n"
                 text += "│  Sorted: `Newest`\n"
                 text += "│\n"
@@ -167,7 +167,7 @@ def connect_chat(bot: Bot, update: Update, args: List[str]):
                 except Unauthorized:
                     pass
             else:
-                send_message(msg, "Connection failed!")
+                send_message(msg, "Bağlantı başarısız?")
         else:
             send_message(msg, "Connection to this chat is not allowed!")
 
