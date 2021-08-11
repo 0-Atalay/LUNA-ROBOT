@@ -262,7 +262,11 @@ def getDefense(bot: Bot, update: Update):
 #     welcome = welcome.replace('$surname', '{lastname}')
 #     welcome = welcome.replace('$rules', '{rules}')
 #     sql.set_custom_welcome(chat_id, welcome, sql.Types.TEXT)
-ABOUT_CAS =  "<b>Combot Anti-Spam Sistemi (CAS)</b>" \ "\n\nCAS, Telegram gruplarındaki spam göndericileri tespit etmek için tasarlanmış otomatik bir sistem olan Combot Anti-Spam anlamına gelir."\ "\nSpam kaydı olan bir kullanıcı CAS korumalı bir gruba bağlanırsa, CAS sistemi o kullanıcıyı hemen yasaklayacaktır."\ "\n\n<i>CAS yasakları kalıcıdır, tartışılamaz ve Combot topluluk yöneticileri tarafından kaldırılamaz.</i>" \ "\n<i>Bir CAS yasağının yanlış verildiği belirlenirse, otomatik olarak kaldırılacaktır.</i>"
+ABOUT_CAS =  "<b>Combot Anti-Spam Sistemi (CAS)</b>" \ 
+             "\n\nCAS, Telegram gruplarındaki spam göndericileri tespit etmek için tasarlanmış otomatik bir sistem olan Combot Anti-Spam anlamına gelir."\ 
+             "\nSpam kaydı olan bir kullanıcı CAS korumalı bir gruba bağlanırsa, CAS sistemi o kullanıcıyı hemen yasaklayacaktır."\ 
+             "\n\n<i>CAS yasakları kalıcıdır, tartışılamaz ve Combot topluluk yöneticileri tarafından kaldırılamaz.</i>" \ 
+             "\n<i>Bir CAS yasağının yanlış verildiği belirlenirse, otomatik olarak kaldırılacaktır.</i>"
 
 @run_async
 def about_cas(bot: Bot, update: Update):
@@ -287,7 +291,8 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, user_id):
     welcome_pref, _, _ = sql.get_welc_pref(chat_id)
     goodbye_pref, _, _ = sql.get_gdbye_pref(chat_id)
-    return "Bu sohbetin karşılama tercihi `{}` olarak ayarlanmış.\n" \ "Hoşçakal tercihi `{}`.".format(welcome_pref, goodbye_pref)
+    return "Bu sohbetin karşılama tercihi `{}` olarak ayarlanmış.\n" \ 
+           "Hoşçakal tercihi `{}`.".format(welcome_pref, goodbye_pref)
 
 __help__ = """
 {}
