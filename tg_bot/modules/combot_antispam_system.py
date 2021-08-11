@@ -32,19 +32,19 @@ def setcas(bot: Bot, update: Update):
     msg = update.effective_message
     split_msg = msg.text.split(' ')
     if len(split_msg)!= 2:
-        msg.reply_text("Invalid arguments!")
+        msg.reply_text("Geçersiz argümanlar!")
         return
     param = split_msg[1]
     if param == "on" or param == "true":
         sql.set_cas_status(chat.id, True)
-        msg.reply_text("Successfully updated configuration.")
+        msg.reply_text("Yapılandırma başarıyla güncellendi.")
         return
     elif param == "off" or param == "false":
         sql.set_cas_status(chat.id, False)
-        msg.reply_text("Successfully updated configuration.")
+        msg.reply_text("Yapılandırma başarıyla güncellendi.")
         return
     else:
-        msg.reply_text("Invalid status to set!") #on or off ffs
+        msg.reply_text("Ayarlanacak geçersiz durum!") #on or off ffs
         return
 
 @run_async
@@ -54,19 +54,19 @@ def setban(bot: Bot, update: Update):
     msg = update.effective_message
     split_msg = msg.text.split(' ')
     if len(split_msg)!= 2:
-        msg.reply_text("Invalid arguments!")
+        msg.reply_text("Gecersiz argümanlar!")
         return
     param = split_msg[1]
     if param == "on" or param == "true":
         sql.set_cas_autoban(chat.id, True)
-        msg.reply_text("Successfully updated configuration.")
+        msg.reply_text("Yapılandırma başarıyla güncellendi.")
         return
     elif param == "off" or param == "false":
         sql.set_cas_autoban(chat.id, False)
-        msg.reply_text("Successfully updated configuration.")
+        msg.reply_text("Yapılandırma başarıyla güncellendi")
         return
     else:
-        msg.reply_text("Invalid autoban definition to set!") #on or off ffs
+        msg.reply_text("Ayarlanacak geçersiz otomatik yasaklama tanımı") #on or off ffs
         return
 
 @run_async
@@ -76,7 +76,7 @@ def get_current_setting(bot: Bot, update: Update):
     msg = update.effective_message
     stats = sql.get_cas_status(chat.id)
     autoban = sql.get_cas_autoban(chat.id)
-    rtext = "<b>CAS Preferences</b>\n\nCAS Checking: {}\nAutoban: {}".format(stats, autoban)
+    rtext = "<b>CAS Tercihleri</b>\n\nCAS Kontrolü: {}\nOtomatik Yasaklama: {}".format(stats, autoban)
     msg.reply_text(rtext, parse_mode=ParseMode.HTML)
     return
 
@@ -86,7 +86,7 @@ def getTimeSetting(bot: Bot, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
     timeSetting = sql.getKickTime(chat.id)
-    text = "This group will automatically kick people in " + str(timeSetting) + " seconds."
+    text = "Bu grup insanları otomatik olarak içeri atacak " + str(timeSetting) + " saniye."
     msg.reply_text(text)
     return
 
@@ -96,21 +96,21 @@ def setTimeSetting(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat
     msg = update.effective_message
     if (not args) or len(args) != 1 or (not args[0].isdigit()):
-        msg.reply_text("Give me a valid value to set! 30 to 900 secs")
+        msg.reply_text("Ayarlamam için bana geçerli bir değer ver! 30 ila 900 saniye ")
         return
     value = int(args[0])
     if value < 30 or value > 900:
-        msg.reply_text("Invalid value! Please use a value between 30 and 900 seconds (15 minutes)")
+        msg.reply_text("Geçersiz değer! Lütfen 30 ile 900 saniye (15 dakika) arasında bir değer kullanın")
         return
     sql.setKickTime(str(chat.id), value)
-    msg.reply_text("Success! Users that don't confirm being people will be kicked after " + str(value) + " seconds.")
+    msg.reply_text("Başarılı! İnsan olduğunu onaylamayan kullanıcılar daha sonra atılacaktır. " + str(value) + " saniye.")
     return
 
 @run_async
 def get_version(bot: Bot, update: Update):
     msg = update.effective_message
     ver = cas.vercheck()
-    msg.reply_text("CAS API version: "+ver)
+    msg.reply_text("CAS API sürümü: "+ver)
     return
 
 @run_async
@@ -121,41 +121,41 @@ def caschecker(bot: Bot, update: Update, args: List[str]):
     if user_id and int(user_id) != 777000:
         user = bot.get_chat(user_id)
     elif user_id and int(user_id) == 777000:
-        msg.reply_text("This is Telegram. Unless you manually entered this reserved account's ID, it is likely a broadcast from a linked channel.")
+        msg.reply_text("Bu Telegram. Bu ayrılmış hesabın kimliğini manuel olarak girmediyseniz, muhtemelen bağlantılı bir kanaldan bir yayındır.")
         return
     elif not msg.reply_to_message and not args:
         user = msg.from_user
     elif not msg.reply_to_message and (not args or (
             len(args) >= 1 and not args[0].startswith("@") and not args[0].isdigit() and not msg.parse_entities(
         [MessageEntity.TEXT_MENTION]))):
-        msg.reply_text("I can't extract a user from this.")
+        msg.reply_text("Bundan bir kullanıcı çıkaramıyorum.")
         return
     else:
         return
 
-    text = "<b>CAS Check</b>:" \
-           "\nID: <code>{}</code>" \
-           "\nFirst Name: {}".format(user.id, html.escape(user.first_name))
+    text = "<b>CAS Kontrolü</b>:" \
+           "\nKimlik: <kod>{}</code>" \
+           "\nAd: {}".format(user.id, html.escape(user.first_name))
     if user.last_name:
-        text += "\nLast Name: {}".format(html.escape(user.last_name))
+        text += "\nSoyadı: {}".format(html.escape(user.last_name))
     if user.username:
-        text += "\nUsername: @{}".format(html.escape(user.username))
-    text += "\n\nCAS Banned: "
+        text += "\nkullanıcı adı: @{}".format(html.escape(user.username))
+    text += "\n\nCAS Yasaklandı: "
     result = cas.banchecker(user.id)
     text += str(result)
     if result:
         parsing = cas.offenses(user.id)
         if parsing:
-            text += "\nTotal of Offenses: "
+            text += "\nSuçların Toplamı: "
             text += str(parsing)
         parsing = cas.timeadded(user.id)
         if parsing:
             parseArray=str(parsing).split(", ")
-            text += "\nDay added: "
+            text += "\ngün eklendi: "
             text += str(parseArray[1])
-            text += "\nTime added: "
+            text += "\nzaman eklendi: "
             text += str(parseArray[0])
-            text += "\n\nAll times are in UTC"
+            text += "\n\ntüm zamanlar UTC'dedir"
     update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
@@ -168,9 +168,9 @@ def casquery(bot: Bot, update: Update, args: List[str]):
     try:
         user_id = msg.text.split(' ')[1]
     except:
-        msg.reply_text("There was a problem parsing the query.")
+        msg.reply_text("Sorgu ayrıştırılırken bir sorun oluştu.")
         return
-    text = "Your query returned: "
+    text = "sorgunuz geri döndü: "
     result = cas.banchecker(user_id)
     text += str(result)
     msg.reply_text(text)        
@@ -184,22 +184,17 @@ def gbanChat(bot: Bot, update: Update, args: List[str]):
         try:
             banner = update.effective_user
             send_to_list(bot, SUDO_USERS,
-                     "<b>Chat Blacklist</b>" \
-                     "\n#BLCHAT" \
-                     "\n<b>Status:</b> <code>Blacklisted</code>" \
-                     "\n<b>Sudo Admin:</b> {}" \
-                     "\n<b>Chat Name:</b> {}" \
-                     "\n<b>ID:</b> <code>{}</code>".format(mention_html(banner.id, banner.first_name),userssql.get_chat_name(chat_id),chat_id), html=True)
+                     "<b>Sohbet Kara Listesi</b>" \ "\n#BLCHAT" \ "\n<b>Durum:</b> <code>Kara listeye alındı</code>" \ "\n<b>Sudo Yöneticisi:</b> {}" \ "\n<b>Sohbet Adı:</b> {}" \ "\n<b>Kimlik:</b> <code>{}</code>".format(mention_html(banner.id, banner.first_name),userssql.get_chat_name(chat_id),chat_id), html=True)
             sql.blacklistChat(chat_id)
-            update.effective_message.reply_text("Chat has been successfully blacklisted!")
+            update.effective_message.reply_text("Sohbet başarıyla kara listeye alındı!")
             try:
                 bot.leave_chat(int(chat_id))
             except:
                 pass
         except:
-            update.effective_message.reply_text("Error blacklisting chat!")
+            update.effective_message.reply_text("Sohbet kara listeye alınırken hata oluştu!")
     else:
-        update.effective_message.reply_text("Give me a valid chat id!") 
+        update.effective_message.reply_text("Bana geçerli bir sohbet kimliği ver")
 
 @run_async
 def ungbanChat(bot: Bot, update: Update, args: List[str]):
@@ -209,18 +204,13 @@ def ungbanChat(bot: Bot, update: Update, args: List[str]):
         try:
             banner = update.effective_user
             send_to_list(bot, SUDO_USERS,
-                     "<b>Regression of Chat Blacklist</b>" \
-                     "\n#UNBLCHAT" \
-                     "\n<b>Status:</b> <code>Un-Blacklisted</code>" \
-                     "\n<b>Sudo Admin:</b> {}" \
-                     "\n<b>Chat Name:</b> {}" \
-                     "\n<b>ID:</b> <code>{}</code>".format(mention_html(banner.id, banner.first_name),userssql.get_chat_name(chat_id),chat_id), html=True)
+                      "<b>Sohbet Kara Listesi</b>" \ "\n#BLCHAT" \ "\n<b>Durum:</b> <code>Kara listeye alındı</code>" \ "\n<b>Sudo Yöneticisi:</b> {}" \ "\n<b>Sohbet Adı:</b> {}" \ "\n<b>Kimlik:</b> <code>{}</code> ".format(mention_html(banner.id, banner.first_name),userssql.get_chat_name(chat_id),chat_id), html=True)
             sql.unblacklistChat(chat_id)
-            update.effective_message.reply_text("Chat has been successfully un-blacklisted!")
+            update.effective_message.reply_text("Sohbet başarıyla kara listeden çıkarıldı!!")
         except:
-            update.effective_message.reply_text("Error unblacklisting chat!")
+            update.effective_message.reply_text("Sohbet kara listeye alınırken hata oluştu!")
     else:
-        update.effective_message.reply_text("Give me a valid chat id!") 
+        update.effective_message.reply_text("Bana geçerli bir sohbet kimliği ver!") 
 
 @run_async
 @user_admin
@@ -228,19 +218,19 @@ def setDefense(bot: Bot, update: Update, args: List[str]):
     chat = update.effective_chat
     msg = update.effective_message
     if len(args)!=1:
-        msg.reply_text("Invalid arguments!")
+        msg.reply_text("Gecersiz argümanlar!")
         return
     param = args[0]
     if param == "on" or param == "true":
         sql.setDefenseStatus(chat.id, True)
-        msg.reply_text("Defense mode has been turned on, this group is under attack. Every user that now joins will be auto kicked.")
+        msg.reply_text("Savunma modu açıldı, bu grup saldırı altında. Şimdi katılan her kullanıcı otomatik olarak atılacak.")
         return
     elif param == "off" or param == "false":
         sql.setDefenseStatus(chat.id, False)
-        msg.reply_text("Defense mode has been turned off, group is no longer under attack.")
+        msg.reply_text("Savunma modu kapatıldı, grup artık saldırı altında değil.")
         return
     else:
-        msg.reply_text("Invalid status to set!") #on or off ffs
+        msg.reply_text("Ayarlanacak geçersiz durum!") #on or off ffs
         return 
 
 @run_async
@@ -249,7 +239,7 @@ def getDefense(bot: Bot, update: Update):
     chat = update.effective_chat
     msg = update.effective_message
     stat = sql.getDefenseStatus(chat.id)
-    text = "<b>Defense Status</b>\n\nCurrently, this group has the defense setting set to: <b>{}</b>".format(stat)
+    text = "<b>Savunma Durumu</b>\n\nŞu anda bu grubun savunma ayarı şu şekilde ayarlanmıştır: <b>{}</b>".format(stat)
     msg.reply_text(text, parse_mode=ParseMode.HTML)
 
 # TODO: get welcome data from group butler snap
@@ -262,11 +252,7 @@ def getDefense(bot: Bot, update: Update):
 #     welcome = welcome.replace('$surname', '{lastname}')
 #     welcome = welcome.replace('$rules', '{rules}')
 #     sql.set_custom_welcome(chat_id, welcome, sql.Types.TEXT)
-ABOUT_CAS = "<b>Combot Anti-Spam System (CAS)</b>" \
-            "\n\nCAS stands for Combot Anti-Spam, an automated system designed to detect spammers in Telegram groups."\
-            "\nIf a user with any spam record connects to a CAS-secured group, the CAS system will ban that user immediately."\
-            "\n\n<i>CAS bans are permanent, non-negotiable, and cannot be removed by Combot community managers.</i>" \
-            "\n<i>If a CAS ban is determined to have been issued incorrectly, it will automatically be removed.</i>"
+ABOUT_CAS =  "<b>Combot Anti-Spam Sistemi (CAS)</b>" \ "\n\nCAS, Telegram gruplarındaki spam göndericileri tespit etmek için tasarlanmış otomatik bir sistem olan Combot Anti-Spam anlamına gelir."\ "\nSpam kaydı olan bir kullanıcı CAS korumalı bir gruba bağlanırsa, CAS sistemi o kullanıcıyı hemen yasaklayacaktır."\ "\n\n<i>CAS yasakları kalıcıdır, tartışılamaz ve Combot topluluk yöneticileri tarafından kaldırılamaz.</i>" \ "\n<i>Bir CAS yasağının yanlış verildiği belirlenirse, otomatik olarak kaldırılacaktır.</i>"
 
 @run_async
 def about_cas(bot: Bot, update: Update):
@@ -280,9 +266,9 @@ def about_cas(bot: Bot, update: Update):
         try:
             bot.send_message(user.id, ABOUT_CAS, parse_mode=ParseMode.HTML)
 
-            update.effective_message.reply_text("You'll find in PM more info about CAS")
+            update.effective_message.reply_text("PM'de CAS hakkında daha fazla bilgi bulacaksınız")
         except Unauthorized:
-            update.effective_message.reply_text("Contact me in PM first to get CAS information.")
+            update.effective_message.reply_text("CAS bilgilerini almak için önce PM ile bana ulaşın")
 
 
 def __migrate__(old_chat_id, new_chat_id):
@@ -291,26 +277,27 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, user_id):
     welcome_pref, _, _ = sql.get_welc_pref(chat_id)
     goodbye_pref, _, _ = sql.get_gdbye_pref(chat_id)
-    return "This chat has it's welcome preference set to `{}`.\n" \
-           "It's goodbye preference is `{}`.".format(welcome_pref, goodbye_pref)
+    return "Bu sohbetin karşılama tercihi `{}` olarak ayarlanmış.\n" \ "Hoşçakal tercihi `{}`.".format(welcome_pref, goodbye_pref)
 
 __help__ = """
 {}
-Commands:
- - /casver: Returns the API version that the bot is currently running
- - /cascheck: Checks you or another user for CAS BAN
-*Admin only:*
- - /setcas <on/off/true/false>: Enables/disables CAS Checking on welcome
- - /getcas: Gets the current CAS settings
- - /setban <on/off/true/false>: Enables/disables autoban on CAS banned user detected.
- - /setdefense <on/off/true/false>: Turns on defense mode, will kick any new user automatically.
- - /getdefense: gets the current defense setting
- - /kicktime: gets the auto-kick time setting
- - /setkicktime: sets new auto-kick time value (between 30 and 900 seconds)
- - /cas: Info about CAS. (What is CAS?)
-"""
 
-__mod_name__ = "CAS"
+Komutlar: 
+     - /casver: Botun çalışmakta olduğu API sürümünü döndürür 
+     - /cascheck: CAS BAN için sizi veya başka bir kullanıcıyı kontrol eder 
+    
+    *Yalnızca yönetici:* 
+     - /setcas <on/off/true/false>: Karşılama sırasında CAS Kontrolünü etkinleştirir/devre dışı bırakır 
+      - /getcas: Mevcut CAS ayarlarını alır 
+      - /setban <on/off/true/false>: CAS tarafından yasaklanan kullanıcı algılandığında otomatik yasağı etkinleştirir/devre dışı bırakır. 
+       - /setdefense <on/off/true/false>: Savunma modunu açar, herhangi bir yeni kullanıcıyı otomatik olarak atar. 
+       - /getdefense: mevcut savunma ayarını alır 
+       - /kicktime: otomatik vuruş zamanı ayarını alır
+      - /setkicktime: yeni otomatik vuruş zaman değerini ayarlar (30 ile 900 saniye arasında) 
+      - /cas: CAS hakkında bilgi. (CAS nedir?) 
+      """
+
+__mod_name__ = "CAS🔪"
 
 SETCAS_HANDLER = CommandHandler("setcas", setcas, filters=Filters.group)
 GETCAS_HANDLER = CommandHandler("getcas", get_current_setting, filters=Filters.group)
