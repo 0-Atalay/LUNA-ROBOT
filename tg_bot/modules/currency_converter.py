@@ -42,7 +42,7 @@ def convert(bot: Bot, update: Update):
 
 
 __help__ = """
-- /nakit : para birimi dönüştürücü örnek sözdizimi: /nakit 1 USD INR
+- /cash : para birimi dönüştürücü örnek sözdizimi: /cash 1 USD INR
 """
 
 CONVERTER_HANDLER = CommandHandler('cash', convert)
@@ -50,5 +50,5 @@ CONVERTER_HANDLER = CommandHandler('cash', convert)
 dispatcher.add_handler(CONVERTER_HANDLER)
 
 __mod_name__ = "para birimi 💸"
-__command_list__ = ["nakit"]
+__command_list__ = ["cash"]
 __handlers__ = [CONVERTER_HANDLER]
