@@ -31,7 +31,7 @@ def convert(bot: Bot, update: Update):
                        f"&apikey={CASH_API_KEY}")
         response = requests.get(request_url).json()
         try:
-            current_rate = float(response['Realtime Currency Exchange Rate']['5. Exchange Rate'])
+            current_rate = float(response['Gerçek Zamanlı Döviz Kuru']['5. Döviz Kuru'])
         except KeyError:
             update.effective_message.reply_text(f"Para Birimi Desteklenmiyor.")
             return
