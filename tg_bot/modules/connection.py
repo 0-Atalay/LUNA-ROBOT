@@ -159,8 +159,8 @@ def connect_chat(bot: Bot, update: Update, args: List[str]):
                              parse_mode=ParseMode.MARKDOWN)
                 try:
                     sql.add_history_conn(user.id, str(chat.id), chat_name)
-                    bot.send_message(msg.from_user.id, f"You have connected with *{chat_name}*."
-                                                       f" Use /connection for see current available commands.",
+                    bot.send_message(msg.from_user.id, f"ile bağlantı kurdunuz *{chat_name}*."
+                                                       f" Mevcut akımı görmek için /connection kullanın. ",
                                      parse_mode="markdown")
                 except BadRequest:
                     pass
@@ -169,7 +169,7 @@ def connect_chat(bot: Bot, update: Update, args: List[str]):
             else:
                 send_message(msg, "Bağlantı başarısız?")
         else:
-            send_message(msg, "Connection to this chat is not allowed!")
+            send_message(msg, "Bu sohbete bağlanmaya izin verilmiyor!")
 
 
 def disconnect_chat(bot: Bot, update: Update):
@@ -179,11 +179,11 @@ def disconnect_chat(bot: Bot, update: Update):
     if chat.type == 'private':
         disconnection_status = sql.disconnect(msg.from_user.id)
         if disconnection_status:
-            sql.disconnected_chat = send_message(msg, "Disconnected from chat!")
+            sql.disconnected_chat = send_message(msg, "Sohbet bağlantısı kesildi!")
         else:
-            send_message(msg, "You're not connected!")
+            send_message(msg, "Bağlı değilsin!")
     else:
-        send_message(msg, "This command is only available in PM.")
+        send_message(msg, "Bu komut yalnızca PM'de kullanılabilir.")
 
 
 def connected(bot, update, chat, user_id, need_admin=True):
@@ -203,15 +203,15 @@ def connected(bot, update, chat, user_id, need_admin=True):
                 if getstatusadmin.status in ADMIN_STATUS or user_id in SUDO_USERS or user.id in DEV_USERS:
                     return conn_id
                 else:
-                    send_message(msg, "You must be an admin in the connected group!")
-                    raise Exception("Not admin!")
+                    send_message(msg, "Bağlı grupta yönetici olmalısınız!")
+                    raise Exception("yönetici değil!")
             else:
                 return conn_id
         else:
-            send_message(msg, "The group changed the connection rights or you are no longer an admin.\n"
-                              "I've disconnected you.")
+            send_message(msg, "Grup bağlantı haklarını değiştirdi veya artık yönetici değilsiniz.\n"
+                              "seni bağladım.")
             disconnect_chat(bot, update)
-            raise Exception("Not admin!")
+            raise Exception("Yönetici değil!")
     else:
         return False
 
@@ -221,7 +221,7 @@ def help_connect_chat(bot: Bot, update: Update):
     msg = update.effective_message
 
     if msg.chat.type != "private":
-        send_message(msg, "PM me with that command to get help.")
+        send_message(msg, "Yardım almak için bana bu komutla PM atın.")
         return
     else:
         send_message(msg, "All commands", parse_mode="markdown")
@@ -251,37 +251,37 @@ def connect_button(bot: Bot, update: Update):
             if connection_status:
                 conn_chat = dispatcher.bot.getChat(connected(bot, update, chat, user.id, need_admin=False))
                 chat_name = conn_chat.title
-                query.message.edit_text(f"Successfully connected to *{chat_name}*."
-                                        f" Use /connection for see current available commands.",
+                query.message.edit_text(f"Başarıyla bağlandı *{chat_name}*."
+                                        f" Mevcut mevcut komutları görmek için /connection kullanın.",
                                         parse_mode=ParseMode.MARKDOWN)
                 sql.add_history_conn(user.id, str(conn_chat.id), chat_name)
             else:
                 query.message.edit_text("Connection failed!")
         else:
-            bot.answer_callback_query(query.id, "Connection to this chat is not allowed!", show_alert=True)
+            bot.answer_callback_query(query.id, "Bu sohbete bağlantıya izin verilmiyor!", show_alert=True)
     elif disconnect_match:
         disconnection_status = sql.disconnect(query.from_user.id)
         if disconnection_status:
-            sql.disconnected_chat = query.message.edit_text("Disconnected from chat!")
+            sql.disconnected_chat = query.message.edit_text("Sohbet bağlantısı kesildi!")
         else:
-            bot.answer_callback_query(query.id, "You're not connected!", show_alert=True)
+            bot.answer_callback_query(query.id, "bağlı değilsin!", show_alert=True)
     elif clear_match:
         sql.clear_history_conn(query.from_user.id)
-        query.message.edit_text("History connected has been cleared!")
+        query.message.edit_text("Bağlı geçmiş temizlendi!")
     elif connect_close:
-        query.message.edit_text("Closed.\nTo open again, type /connect")
+        query.message.edit_text("Kapatıldı.\nTekrar açmak için /connect yazın")
     else:
         connect_chat(bot, update, [])
 
 
 __help__ = """
- - /connect: connect a chat (Can be done in a group by /connect or /connect <chat id> in PM)
- - /connection: list connected chats
- - /disconnect: disconnect from a chat
- - /helpconnect: list available commands that can be done remotely
+- /connect: bir sohbete bağlan (Bir grupta /connect veya PM'de /connect <chat id> ile yapılabilir) 
+- /connection: bağlı sohbetleri listeler 
+- /disconnect: sohbetten bağlantıyı kes 
+- /helpconnect: uzaktan yapılabilecek komutları listeler
 
-*Admin only:*
- - /allowconnect <yes/no>: allow a user to connect to a chat
+*Yalnızca yönetici:*
+ - /allowconnect <yes/no>: bir kullanıcının sohbete bağlanmasına izin verir
 """
 
 CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, pass_args=True)
@@ -298,6 +298,6 @@ dispatcher.add_handler(ALLOW_CONNECTIONS_HANDLER)
 dispatcher.add_handler(HELP_CONNECT_CHAT_HANDLER)
 dispatcher.add_handler(CONNECT_BTN_HANDLER)
 
-__mod_name__ = "CONNECTION"
+__mod_name__ = "CONNECTION🗣️"
 __handlers__ = [CONNECT_CHAT_HANDLER, CONNECTION_CHAT_HANDLER, DISCONNECT_CHAT_HANDLER, ALLOW_CONNECTIONS_HANDLER,
                 HELP_CONNECT_CHAT_HANDLER, CONNECT_BTN_HANDLER]
