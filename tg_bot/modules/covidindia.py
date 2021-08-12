@@ -50,6 +50,6 @@ __help__ = """
 
 __mod_name__ = 'COVID-19 VIRUS'
 
-COV_INDIA_HANDLER = CommandHandler('covindia', covindia)
+COV_INDIA_HANDLER = CommandHandler('covturkey', covindia)
 
 dispatcher.add_handler(COV_INDIA_HANDLER)
