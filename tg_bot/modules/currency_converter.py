@@ -15,13 +15,13 @@ def convert(bot: Bot, update: Update):
         try:
             orig_cur = args[2].upper()
         except IndexError:
-            update.effective_message.reply_text("You forgot to mention the currency code.")
+            update.effective_message.reply_text("Para birimi kodunu belirtmeyi unutmuşsunuz.")
             return
 
         try:
             new_cur = args[3].upper()
         except IndexError:
-            update.effective_message.reply_text("You forgot to mention the currency code to convert into.")
+            update.effective_message.reply_text("Dönüştürmek için para birimi kodunu belirtmeyi unuttunuz.")
             return
 
         request_url = (f"https://www.alphavantage.co/query"
@@ -31,9 +31,9 @@ def convert(bot: Bot, update: Update):
                        f"&apikey={CASH_API_KEY}")
         response = requests.get(request_url).json()
         try:
-            current_rate = float(response['Realtime Currency Exchange Rate']['5. Exchange Rate'])
+            current_rate = float(response['Gerçek Zamanlı Döviz Kuru']['5. Döviz Kuru'])
         except KeyError:
-            update.effective_message.reply_text(f"Currency Not Supported.")
+            update.effective_message.reply_text(f"Para Birimi Desteklenmiyor.")
             return
         new_cur_amount = round(orig_cur_amount * current_rate, 5)
         update.effective_message.reply_text(f"{orig_cur_amount} {orig_cur} = {new_cur_amount} {new_cur}")
@@ -42,11 +42,10 @@ def convert(bot: Bot, update: Update):
 
 
 __help__ = """
- - /cash : currency converter
- example syntax: /cash 1 USD INR
+- /nakit : para birimi dönüştürücü örnek sözdizimi: /nakit 1 USD INR
 """
 
-CONVERTER_HANDLER = CommandHandler('cash', convert)
+CONVERTER_HANDLER = CommandHandler('nakit🤑', convert)
 
 dispatcher.add_handler(CONVERTER_HANDLER)
 
