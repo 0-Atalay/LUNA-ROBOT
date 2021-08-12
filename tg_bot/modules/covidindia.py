@@ -31,25 +31,25 @@ def covindia(bot: Bot, update: Update):
     if state:
         bot.send_message(
             message.chat.id,
-            '`COVID-19 Tracker`\n*Number of confirmed cases in %s:* %s\n*Deceased:* %s\n*Recovered:* %s\n\n_Source:_ covid19india.org' % (state, confirmed, deceased, recovered),
+            '`COVID-19 İzleyici`\n* teyit edilen vaka sayısı %s:* %s\n*Vefat:* %s\n*Kurtarıldı:* %s\n\n_Kaynak:_ covid19india.org' % (state, confirmed, deceased, recovered),
             parse_mode = ParseMode.MARKDOWN,
             disable_web_page_preview = True
         )
     else:
         bot.send_message(
             message.chat.id,
-            'You need to specify a valid Indian state!',
+            'Geçerli bir Hindistan eyaleti belirtmeniz gerekiyor!',
             parse_mode = ParseMode.MARKDOWN,
             disable_web_page_preview = True
         )
 
 __help__ = """
  
- - /covindia <state>: Get real time COVID-19 stats for the input Indian state
+ - /covindia <eyalet>: Hindistan eyaleti girişi için gerçek zamanlı COVID-19 istatistiklerini alın
 """
 
-__mod_name__ = 'COVID-19 VIRUS'
+__mod_name__ = 'COVID-19🐄'
 
-COV_INDIA_HANDLER = CommandHandler('covturkey', covindia)
+COV_INDIA_HANDLER = CommandHandler('covindia', covindia)
 
 dispatcher.add_handler(COV_INDIA_HANDLER)
