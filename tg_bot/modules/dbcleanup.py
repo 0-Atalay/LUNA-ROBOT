@@ -84,14 +84,14 @@ def get_invalid_gban(bot: Bot, update: Update, remove: bool = False):
 def dbcleanup(bot: Bot, update: Update):
     msg = update.effective_message
 
-    msg.reply_text("Getting invalid chat count ...")
+    msg.reply_text("Geçersiz sohbet sayısı alınıyor...")
     invalid_chat_count = get_invalid_chats(bot, update)
 
-    msg.reply_text("Getting invalid gbanned count ...")
+    msg.reply_text("Geçersiz gbanned sayısı alınıyor...")
     invalid_gban_count = get_invalid_gban(bot, update)
 
-    reply = f"Total invalid chats - {invalid_chat_count}\n"
-    reply += f"Total invalid gbanned users - {invalid_gban_count}"
+    reply = f"Toplam geçersiz sohbet - {invalid_chat_count}\n"
+    reply += f"Toplam geçersiz gban'lı kullanıcı - {invalid_gban_count}"
 
     buttons = [
         [InlineKeyboardButton("Cleanup DB", callback_data=f"db_cleanup")]
@@ -110,7 +110,7 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
     for chat in chats:
 
         if ((100 * chats.index(chat)) / len(chats)) > progress:
-            progress_bar = f"{progress}% completed in getting muted chats."
+            progress_bar = f"{progress}% sessiz sohbetler alma tamamlandı."
             if progress_message:
                 try:
                     bot.editMessageText(progress_bar, chat_id, progress_message.message_id)
@@ -153,14 +153,14 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
 @dev_plus
 def leave_muted_chats(bot: Bot, update: Update):
     message = update.effective_message
-    progress_message = message.reply_text("Getting chat count ...")
+    progress_message = message.reply_text("Sohbet sayısı alınıyor...")
     muted_chats = get_muted_chats(bot, update)
 
     buttons = [
-        [InlineKeyboardButton("Leave chats", callback_data=f"db_leave_chat")]
+        [InlineKeyboardButton("sohbetlerden ayrıl", callback_data=f"db_leave_chat")]
     ]
 
-    update.effective_message.reply_text(f"I am muted in {muted_chats} chats.",
+    update.effective_message.reply_text(f"{muted_chats} sohbette sesim kapatıldı.",
                                         reply_markup=InlineKeyboardMarkup(buttons))
     progress_message.delete()
 
@@ -178,20 +178,20 @@ def callback_button(bot: Bot, update: Update):
 
     if query_type == "db_leave_chat":
         if query.from_user.id in admin_list:
-            bot.editMessageText("Leaving chats ...", chat_id, message.message_id)
+            bot.editMessageText("Sohbetten çıkılıyor...", chat_id, message.message_id)
             chat_count = get_muted_chats(bot, update, True)
             bot.sendMessage(chat_id, f"Left {chat_count} chats.")
         else:
-            query.answer("You are not allowed to use this.")
+            query.answer("Bunu kullanmana izin verilmiyor.")
     elif query_type == "db_cleanup":
         if query.from_user.id in admin_list:
-            bot.editMessageText("Cleaning up DB ...", chat_id, message.message_id)
+            bot.editMessageText("DB'yi temizleme ...", chat_id, message.message_id)
             invalid_chat_count = get_invalid_chats(bot, update, True)
             invalid_gban_count = get_invalid_gban(bot, update, True)
-            reply = "Cleaned up {} chats and {} gbanned users from db.".format(invalid_chat_count, invalid_gban_count)
+            reply = "{} sohbet ve {} gbanli kullanıcı db'den temizlendi.".format(invalid_chat_count, invalid_gban_count)
             bot.sendMessage(chat_id, reply)
         else:
-            query.answer("You are not allowed to use this.")
+            query.answer("Bunu kullanmana izin verilmiyor.")
 
 
 DB_CLEANUP_HANDLER = CommandHandler("dbcleanup", dbcleanup)
@@ -202,5 +202,5 @@ dispatcher.add_handler(DB_CLEANUP_HANDLER)
 dispatcher.add_handler(LEAVE_MUTED_CHATS_HANDLER)
 dispatcher.add_handler(BUTTON_HANDLER)
 
-__mod_name__ = "DB CLEANUP"
+__mod_name__ = "DB CLEANUP🗄️"
 __handlers__ = [DB_CLEANUP_HANDLER, LEAVE_MUTED_CHATS_HANDLER, BUTTON_HANDLER]
