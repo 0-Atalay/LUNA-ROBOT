@@ -18,20 +18,20 @@ def leave(bot: Bot, update: Update, args: List[str]):
         chat_id = str(args[0])
         try:
             bot.leave_chat(int(chat_id))
-            update.effective_message.reply_text("Beep boop, I left that soup!.")
+            update.effective_message.reply_text("Bip boop, o çorbayı bıraktım!.")
         except TelegramError:
-            update.effective_message.reply_text("Beep boop, I could not leave that group(dunno why tho).")
+            update.effective_message.reply_text("Bip boop, o gruptan ayrılamadım (neden bilmiyorum).")
     else:
-        update.effective_message.reply_text("Send a valid chat ID")
+        update.effective_message.reply_text("Geçerli bir sohbet kimliği gönderin")
 
 
 @run_async
 @dev_plus
 def gitpull(bot: Bot, update: Update):
-    sent_msg = update.effective_message.reply_text("Pulling all changes from remote and then attempting to restart.")
+    sent_msg = update.effective_message.reply_text("Tüm değişiklikleri uzaktan kumandadan çekme ve ardından yeniden başlatmaya çalışma.")
     subprocess.Popen('git pull', stdout=subprocess.PIPE, shell=True)
 
-    sent_msg_text = sent_msg.text + "\n\nChanges pulled...I guess.. Restarting in "
+    sent_msg_text = sent_msg.text + "\n\nDeğişiklikler çekildi...Sanırım... Yeniden başlatılıyor"
 
     for i in reversed(range(5)):
         sent_msg.edit_text(sent_msg_text + str(i + 1))
@@ -46,7 +46,7 @@ def gitpull(bot: Bot, update: Update):
 @run_async
 @dev_plus
 def restart(bot: Bot, update: Update):
-    update.effective_message.reply_text("Starting a new instance and shutting down this one")
+    update.effective_message.reply_text("Yeni bir örnek başlatmak ve bunu kapatmak")
 
     os.system('restart.bat')
     os.execv('start.bat', sys.argv)
@@ -60,5 +60,5 @@ dispatcher.add_handler(LEAVE_HANDLER)
 dispatcher.add_handler(GITPULL_HANDLER)
 dispatcher.add_handler(RESTART_HANDLER)
 
-__mod_name__ = "DEV"
+__mod_name__ = "DEV🦕"
 __handlers__ = [LEAVE_HANDLER, GITPULL_HANDLER, RESTART_HANDLER]
