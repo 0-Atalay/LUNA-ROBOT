@@ -104,14 +104,14 @@ def cov(bot: Bot, update: Update):
     except:
         bot.send_message(
             message.chat.id,
-            'Unable to contact the Bing COVID-19 Data API. Try again in a while.'
+            'Bing COVID-19 Veri API'si ile bağlantı kurulamıyor. bir süre sonra tekrar deneyin.'
         )
         return
 
 
 __help__ = """
- - /cov <country> <state> <locality>: Get real time COVID-19 stats for the input location.
- - /cov top <n(integer)>: Get the top n countries with the highest confirmed cases.
+- /cov <ülke> <durum> <yerellik>: Giriş konumu için gerçek zamanlı COVID-19 istatistiklerini alın. 
+- /cov top <n(tam sayı)>: En yüksek teyit edilmiş vakalara sahip ilk n ülkeyi alın.
 """
 
 __mod_name__ = 'COVID-19 TRACKER'
