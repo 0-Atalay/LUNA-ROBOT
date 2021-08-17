@@ -2,7 +2,7 @@
 
 # GRAND OFFICIAL
 ![Rose Profile](https://telegra.ph/file/96c6f0def6ab4846424a1.jpg)
-DEPLOY HERE - [GRAND OFFICIAL] (https://heroku.com/deploy?template=https://github.com/Drmehmetaktass/GRANDROBOT)
+DEPLOY HERE - [GRAND OFFICIAL] (https://heroku.com/deploy?template=https://github.com/Drmehmetaktass/LUNA-ROBOT)
 [.](https://heroku.com/deploy)
 Credits - [LEGEND X](https://t.me/Drmehmetaktass)
 
