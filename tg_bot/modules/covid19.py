@@ -104,7 +104,7 @@ def cov(bot: Bot, update: Update):
     except:
         bot.send_message(
             message.chat.id,
-            'Bing COVID-19 Veri API'si ile bağlantı kurulamıyor. bir süre sonra tekrar deneyin.'
+            'Unable to contact the Bing COVID-19 Data API. Try again in a while.'
         )
         return
 
