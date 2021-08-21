@@ -27,11 +27,11 @@ def define(bot: Bot, update: Update, args):
         
         
 __help__ = """
-Ever stumbled upon a word that you didn't know of and wanted to look it up?
-With this module, you can find the definitions of words without having to leave the app!
+Hiç bilmediğiniz ve araştırmak istediğiniz bir kelimeye rastladınız mı?
+Bu modül ile uygulamadan çıkmadan kelimelerin tanımlarını bulabilirsiniz!
 
 *Available commands:*
- - /define <word>: returns the definition of the word.
+ - /define <word>: kelimenin tanımını döndürür.
  """
  
 __mod_name__ = "DICTIONARY"
