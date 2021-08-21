@@ -122,7 +122,7 @@ def clear(bot, update):
     global namespaces
     if update.message.chat_id in namespaces:
         del namespaces[update.message.chat_id]
-    send("Cleared locals.", bot, update)
+    send("Veriler temizlendi.", bot, update)
 
 
 eval_handler = CommandHandler(('e', 'ev', 'eva', 'eval'), evaluate)
