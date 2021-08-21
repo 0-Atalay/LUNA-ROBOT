@@ -23,7 +23,7 @@ def define(bot: Bot, update: Update, args):
         else:
             return 
     else:
-        msg.reply_text("No results found!")
+        msg.reply_text("Sonuç bulunamadı!")
         
         
 __help__ = """
